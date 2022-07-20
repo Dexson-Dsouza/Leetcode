@@ -27,10 +27,9 @@ class Solution {
             int curSize=curCharQueue.size()-1;
             while(curSize-->=0){
 
-                wordIndexPair cur=curCharQueue.peek();
+                wordIndexPair cur=curCharQueue.poll();
                 String curWordString=cur.word;
                 int index=cur.index;
-                curCharQueue.poll();
                 if(cur.word.charAt(index)==ch){
                     cur.index++;
                 }
