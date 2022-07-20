@@ -30,6 +30,7 @@ class Solution {
                 wordIndexPair cur=curCharQueue.peek();
                 String curWordString=cur.word;
                 int index=cur.index;
+                curCharQueue.poll();
                 if(cur.word.charAt(index)==ch){
                     cur.index++;
                 }
@@ -40,7 +41,7 @@ class Solution {
                     wordIndexPairList.get(cur.word.charAt(cur.index)-'a').add(cur);
                 }
                 
-                curCharQueue.poll();
+                
             }
         }
         return matchedWordCount;
