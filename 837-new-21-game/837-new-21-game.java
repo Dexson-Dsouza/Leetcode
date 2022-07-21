@@ -1,25 +1,24 @@
 class Solution {
     public double new21Game(int n, int k, int maxPts) {
-        if(k+maxPts-1<n){
+        if(k+maxPts-1<n || k==0){
             return 1;
         }
         double[] prob=new double[n+1];
         
         prob[0]=1;
-        double sum=0;
-        for(int point=1;point<=k;point++){
-            sum += prob[point-1];
-            if(point-maxPts-1>=0){
-                sum-=prob[point-maxPts-1];
-            }
+        double sum=1;
+        double result=0;
+        for(int point=1;point<=n;point++){
             prob[point]=sum/maxPts;
-        }
-        double result=prob[k];
-        for(int index=k+1;index<=n;index++){
-            if(index-maxPts-1>=0){
-                sum-=prob[index-maxPts-1];
+            
+            if(point>=k){
+                result+=prob[point];
+            }else{
+                sum+=prob[point];
             }
-            result+=sum/maxPts;
+            if(point-maxPts>=0){
+                sum-=prob[point-maxPts];
+            }
         }
         return result;   
     }
