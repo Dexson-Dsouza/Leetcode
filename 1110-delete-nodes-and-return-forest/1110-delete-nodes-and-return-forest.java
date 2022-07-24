@@ -15,31 +15,35 @@
  */
 class Solution {
     public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {
-        Set<Integer> toDeleteSet=new HashSet<>();
+        Set<Integer> deleted=new HashSet<>();
         for(int n:to_delete){
-            toDeleteSet.add(n);
+            deleted.add(n);
         }
-        List<TreeNode> forest=new ArrayList<>();
-        
-        traverse(root,toDeleteSet,forest,false);
-        return forest;
+        List<TreeNode> forests=new ArrayList<>();
+        traverse(root,true,deleted,forests);
+        return forests;
     }
     
-    TreeNode traverse(TreeNode root, Set<Integer> toDeleteSet, List<TreeNode> forest, boolean hasParent){
+    boolean traverse(TreeNode root, boolean parentDeleted, Set<Integer> deleted, List<TreeNode> forests){
         if(root==null){
-            return null;
+            return false;
         }
-        if(toDeleteSet.contains(root.val)){
-            root.left=traverse(root.left,toDeleteSet,forest,false);
-            root.right=traverse(root.right,toDeleteSet,forest,false);  
-            return null;
-        }else{
-            if(!hasParent){
-                forest.add(root);
-            }
-            root.left=traverse(root.left,toDeleteSet,forest,true);
-            root.right=traverse(root.right,toDeleteSet,forest,true);
-            return root;
+        
+        boolean isDeleted= deleted.contains(root.val);
+        
+        if(parentDeleted==true && isDeleted==false){
+            forests.add(root);
         }
+        
+        boolean left=traverse(root.left,isDeleted,deleted,forests);
+        boolean right=traverse(root.right,isDeleted,deleted,forests);
+        
+        if(left==true){
+            root.left=null;
+        }
+        if(right==true){
+            root.right=null;
+        }
+        return isDeleted;
     }
 }
