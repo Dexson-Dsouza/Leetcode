@@ -5,13 +5,13 @@ class Solution {
         int i=0;
         int j=0;
         int len=source.length;
-        StringBuilder curCode=new StringBuilder();
+        String curCode="";
         while(i<len){
             // System.out.println(i+" "+j+" "+curCode);
             if(j==source[i].length()){
                 if(curCode.length()>0){
-                    result.add(curCode.toString());
-                    curCode=new StringBuilder();
+                    result.add(curCode);
+                    curCode="";
                 }
                 i++;
                 j=0;
@@ -32,13 +32,13 @@ class Solution {
                 }
                 j+=2;
             }else{
-                curCode.append(source[i].charAt(j));
+                curCode+=source[i].charAt(j);
                 j++;
             }
             // System.out.println(i+" "+j+" "+curCode);
         }
         if(curCode.length()>0){
-            result.add(curCode.toString());
+            result.add(curCode);
         }
         return result;
     }
