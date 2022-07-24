@@ -3,23 +3,25 @@ class Solution {
         if(k+maxPts-1<n || k==0){
             return 1;
         }
-        double[] prob=new double[n+1];
-        
+        double[] prob= new double[n+1];
         prob[0]=1;
-        double sum=1;
+        
         double result=0;
-        for(int point=1;point<=n;point++){
-            prob[point]=sum/maxPts;
+        double sum=1;
+        for(int i=1;i<=n;i++){
+            prob[i]=sum/maxPts;
             
-            if(point>=k){
-                result+=prob[point];
-            }else{
-                sum+=prob[point];
+            if(i>=maxPts){
+                sum-=prob[i-maxPts];
             }
-            if(point-maxPts>=0){
-                sum-=prob[point-maxPts];
+            
+            
+            if(i<k){
+                sum +=prob[i];
+            }else{
+                result += prob[i];
             }
         }
-        return result;   
+        return result;
     }
 }
