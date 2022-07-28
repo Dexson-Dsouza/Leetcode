@@ -30,13 +30,11 @@ class Solution {
             return;
         }
         
-        for(int len=1;len<=Math.min(rows-r,cols-c);len++){
+        for(int len=Math.min(rows-r,cols-c);len>=1;len--){
             if(isEmpty(rect,r,c,len)){
                 cover(rect,r,c,len);
                 fillRectangle(r,c+len,rect,1+squares,minSquare);
                 uncover(rect,r,c,len);
-            }else{
-                break;
             }
         }
     }
