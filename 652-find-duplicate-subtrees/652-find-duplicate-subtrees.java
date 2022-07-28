@@ -15,30 +15,31 @@
  */
 class Solution {
     public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
-        Set<String> keySet=new HashSet<>();
-        Set<String> doneKeys=new HashSet<>();
-        List<TreeNode> similarNodes=new ArrayList<>();
-        traverse(root,keySet,doneKeys,similarNodes);
-        return similarNodes;
+        List<TreeNode> duplicates=new ArrayList<>();
+        Set<String> keys=new HashSet<>();
+        Set<String> addedKeys=new HashSet<>();
+        serializeAndFindDuplicates(root,keys,addedKeys,duplicates);
+        return duplicates;
     }
     
-    String traverse(TreeNode root, Set<String> keySet, Set<String> doneKeys, List<TreeNode> similarNodes){
+    String serializeAndFindDuplicates(TreeNode root, Set<String> keys, Set<String> addedKeys, List<TreeNode> duplicates){
         if(root==null){
-            return "#";
+            return "#";   
         }
         
-        String leftKey=traverse(root.left,keySet,doneKeys,similarNodes);
-        String rightKey=traverse(root.right,keySet,doneKeys,similarNodes);
-        String currentKey= leftKey+","+rightKey+","+root.val;
-        // System.out.println(currentKey);
-        if(keySet.contains(currentKey)){
-            if(!doneKeys.contains(currentKey)){
-                similarNodes.add(root);
-                doneKeys.add(currentKey);
+        String leftKey=serializeAndFindDuplicates(root.left,keys,addedKeys,duplicates);
+        String rightKey=serializeAndFindDuplicates(root.right,keys,addedKeys,duplicates);
+        
+        String rootKey=root.val + ","+leftKey+ ","+rightKey;
+        
+        if(keys.contains(rootKey)){
+            if(addedKeys.contains(rootKey)==false){
+                duplicates.add(root);
+                addedKeys.add(rootKey);
             }
         }else{
-            keySet.add(currentKey);
+            keys.add(rootKey);
         }
-        return currentKey;
+        return rootKey;
     }
 }
