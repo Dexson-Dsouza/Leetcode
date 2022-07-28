@@ -1,50 +1,68 @@
 class Solution {
-    private int mod=(int)(Math.pow(10,9)+7);
-    
     public int buildWall(int height, int width, int[] bricks) {
-        List<Integer> waysToMakeLays= new ArrayList<>();
-        waysToMakeLays(0,width,0,bricks,waysToMakeLays);
-        Map<Integer,Map<Integer,Integer>> memo=new HashMap<>();
-        return dp(height,waysToMakeLays,memo,0);
+        Set<Integer> waysToMakeRow=new HashSet<>();
+        findWaysToMakeRow(bricks,0,0,width,waysToMakeRow);
+        
+        Map<Integer,List<Integer>> nextPossibleWays=new HashMap<>();
+        
+        for(int mask1:waysToMakeRow){
+            nextPossibleWays.put(mask1,new ArrayList<>());
+            for(int mask2:waysToMakeRow){
+                if((mask1&mask2)==0){
+                    nextPossibleWays.get(mask1).add(mask2);
+                }
+            }
+        }
+        
+        Map<Integer,Map<Integer,Integer>> waysToBuildMap=new HashMap<>();
+        int mod=(int)(Math.pow(10,9)+7);
+        long count=0;
+        for(int mask:waysToMakeRow){
+            // System.out.println(mask);
+            count = (count + findWays(mask,height-1,nextPossibleWays,waysToBuildMap))%mod;
+        }
+        return (int)(count);
     }
     
-    int dp(int h, List<Integer> waysToMakeLays, Map<Integer,Map<Integer,Integer>> memo, int prev){
-        if(h==0){
+    int findWays(int prevMask, int curHeight, Map<Integer,List<Integer>> nextPossibleWays, 
+                 Map<Integer,Map<Integer,Integer>> waysToBuildMap){
+        
+        // System.out.println(curHeight+" "+prevMask);
+        if(curHeight==0){
             return 1;
         }
         
-        if(memo.containsKey(h) && memo.get(h).containsKey(prev)){
-            return memo.get(h).get(prev);
+        if(waysToBuildMap.containsKey(prevMask) && waysToBuildMap.get(prevMask).containsKey(curHeight)){
+            return waysToBuildMap.get(prevMask).get(curHeight);
         }
-        int count = 0;
+        int mod=(int)(Math.pow(10,9)+7);
+        long waysToBuild=0;
         
-        for(int mask:waysToMakeLays){
-            if((mask & prev)==0){
-                count = (count + dp(h-1,waysToMakeLays,memo,mask))%mod;
-            }
+        for(int nextMask:nextPossibleWays.get(prevMask)){
+            waysToBuild = (waysToBuild + findWays(nextMask,curHeight-1,nextPossibleWays,waysToBuildMap))%mod;
         }
-        if(!memo.containsKey(h)){
-            memo.put(h,new HashMap<>());
+        if(waysToBuildMap.containsKey(prevMask)==false){
+            waysToBuildMap.put(prevMask,new HashMap<>());
         }
-        memo.get(h).put(prev,count);
-        return count;
-        
+        int ways=(int)(waysToBuild);
+        waysToBuildMap.get(prevMask).put(curHeight,ways);
+        return ways;
     }
     
-    
-    public void waysToMakeLays(int curwidth, int width, int mask, int[] bricks, List<Integer> waysToMakeLays){
-        if(curwidth==width){
-            waysToMakeLays.add(mask);
+    void findWaysToMakeRow(int[] bricks, int mask, int curLen, int width, Set<Integer> waysToMakeRow){
+        if(width == curLen){
+            waysToMakeRow.add(mask);
             return;
         }
-        if(curwidth>0){
-            mask += 1<<curwidth;
-        }
-        for(int n:bricks){
-            if(n+curwidth<=width){
-                waysToMakeLays(curwidth+n,width,mask,bricks,waysToMakeLays);
-            }
+        
+        if(curLen>0){
+            mask|=(1<<curLen);
         }
         
+        for(int b:bricks){
+            if(curLen+b<=width){
+                findWaysToMakeRow(bricks,mask,curLen+b,width,waysToMakeRow);
+            }
+        }
     }
 }
