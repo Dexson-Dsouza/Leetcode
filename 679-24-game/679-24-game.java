@@ -1,7 +1,7 @@
 class Solution {
 
     boolean res = false;
-    final double eps = 0.001;
+    final double eps = 0.00001;
 
     public boolean judgePoint24(int[] nums) {
         List<Double> arr = new ArrayList<>();
