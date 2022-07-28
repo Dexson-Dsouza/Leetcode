@@ -35,8 +35,6 @@ class Solution {
                 cover(rect,r,c,len);
                 fillRectangle(r,c+len,rect,1+squares,minSquare);
                 uncover(rect,r,c,len);
-            }else{
-                break;
             }
         }
     }
