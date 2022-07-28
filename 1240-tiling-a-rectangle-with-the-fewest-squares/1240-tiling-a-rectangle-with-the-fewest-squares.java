@@ -14,7 +14,7 @@ class Solution {
         
         // Successfully cover the whole rectangle
         if (r >= n) {
-            ans = cnt; 
+            ans = Math.min(ans,cnt); 
             return;
         }
         
