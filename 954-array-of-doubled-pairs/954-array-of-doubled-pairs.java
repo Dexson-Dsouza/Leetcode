@@ -24,7 +24,6 @@ class Solution {
         }
         
         for(int key:count.keySet()){
-            // System.out.println(key+" "+count.get(key));
             if(count.get(key)>0){
                 return false;
             }
