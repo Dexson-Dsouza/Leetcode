@@ -1,52 +1,56 @@
 class RangeModule {
-    TreeMap<Integer,Integer> map;
+    TreeMap<Integer,Integer> ranges;
+    
     public RangeModule() {
-        map=new TreeMap<>();
+            ranges=new TreeMap<>();
     }
     
     public void addRange(int left, int right) {
-        if (left >= right) return;
-        Integer start=map.floorKey(left);
-        if(start==null){
-            start=map.ceilingKey(left);
+        Integer start=ranges.floorKey(left);
+        if(start!=null && start<left && ranges.get(start)>=left){
+            left=start;
         }
         
-        while(start!=null && start<=right){
-            int end=map.get(start);
-            if(end>=left){
-                left=Math.min(left,start);
-                right=Math.max(right,end);
-                map.remove(start);
-            }
-            start=map.ceilingKey(end);
+        Integer end=ranges.floorKey(right);
+        
+        if(end!=null && end<=right && ranges.get(end)>=right){
+            right=ranges.get(end);
         }
-        map.put(left,right);
+        
+        Map<Integer,Integer> subMap=ranges.subMap(left,true,right,false);
+        
+        for(int key:new ArrayList<>(subMap.keySet())){
+            ranges.remove(key);
+        }
+        ranges.put(left,right);
+        // System.out.println(ranges);
     }
     
     public boolean queryRange(int left, int right) {
-        Integer start=map.floorKey(left);
-        return start!=null && map.get(start)>=right;
+        Integer start=ranges.floorKey(left);
+        return start!=null && ranges.get(start)>=right;
     }
     
     public void removeRange(int left, int right) {
-        if (left >= right) return;
-        Integer start=map.floorKey(left);
-        if(start==null){
-            start=map.ceilingKey(left);
+        
+        
+        Integer end=ranges.floorKey(right);
+        
+        if(end!=null && end<right && ranges.get(end)>right){
+            ranges.put(right,ranges.get(end));
         }
         
-        while(start!=null && start<=right){
-            int end=map.get(start);
-            if(end>left){
-                map.remove(start);
-                if(start<left)
-                    map.put(start,left);
-                if(end>right)
-                    map.put(right,end);
-                
-            }
-            start=map.ceilingKey(end);
+        Integer start=ranges.floorKey(left);
+        if(start!=null && start<left && ranges.get(start)>=left){
+            ranges.put(start,left);
         }
+        
+        Map<Integer,Integer> subMap=ranges.subMap(left,true,right,false);
+        
+        for(int key:new ArrayList<>(subMap.keySet())){
+            ranges.remove(key);
+        }
+        // System.out.println("D " + ranges);
     }
 }
 
