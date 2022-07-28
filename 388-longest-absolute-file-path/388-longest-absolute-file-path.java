@@ -1,33 +1,30 @@
 class Solution {
     public int lengthLongestPath(String input) {
-        String[] directories=input.split("\n");
-        int longestLength=0;
-        List<String> levelDirs=new ArrayList<>();
-        
-        for(String currentDir:directories){
-            StringBuilder currentDirSb=new StringBuilder(currentDir);
-            int tabCount=0;
-            while(currentDirSb.substring(0,1).equals("\t")){
-                tabCount++;
-                currentDirSb.delete(0,1);
+        String[] names=input.split("\n");
+        List<String> dirs=new ArrayList<>();
+        int maxLen=0;
+        for(String name:names){
+            StringBuilder nameSb=new StringBuilder(name);
+            int level=0;
+            while(nameSb.indexOf("\t")!=-1){
+                level++;
+                nameSb = new StringBuilder(nameSb.toString().substring(1));
             }
-            if(levelDirs.size()==tabCount){
-                levelDirs.add(currentDirSb.toString());
+            
+            if(level==dirs.size()){
+                dirs.add(nameSb.toString());
             }else{
-                levelDirs.add(tabCount,currentDirSb.toString());
+                dirs.add(level,nameSb.toString());
             }
-            
-            if(currentDirSb.toString().contains(".")){
-                int curLen=0;
-                for(int i=0;i<=tabCount;i++){
-                    curLen+=levelDirs.get(i).length();
+            if(name.indexOf(".")!=-1){
+                int len=0;
+                for(int i=0;i<=level;i++){
+                    System.out.println(dirs.get(i));
+                    len+=dirs.get(i).length();
                 }
-                curLen+=tabCount;
-                longestLength=Math.max(longestLength,curLen);
+                maxLen=Math.max(maxLen,len+ level);
             }
-            
         }
-        return longestLength;
-        
+        return maxLen;
     }
 }
