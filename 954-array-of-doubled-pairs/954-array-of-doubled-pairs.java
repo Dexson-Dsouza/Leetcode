@@ -1,7 +1,6 @@
 class Solution {
     public boolean canReorderDoubled(int[] arr) {
     
-        // Arrays.sort(arr);
         Map<Integer,Integer> count=new HashMap<>();
         for(int n:arr){
             count.put(n,count.getOrDefault(n,0)+1);
