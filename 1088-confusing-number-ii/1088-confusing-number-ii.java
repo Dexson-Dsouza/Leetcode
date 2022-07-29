@@ -1,45 +1,32 @@
 class Solution {
-    private static final Map<Integer,Integer> map= new HashMap<>();
-    private static final int[] num = {0, 1, 6, 8, 9};
-
-    static {
+    Map<Integer, Integer> map = new HashMap<>();
+    int res = 0;
+    public int confusingNumberII(int N) {
         map.put(0, 0);
         map.put(1, 1);
         map.put(6, 9);
         map.put(8, 8);
         map.put(9, 6);
+        helper(N, 0);
+        return res;
     }
-
-    private int count;
-    private int N;
-
-    public int confusingNumberII(int N) {
-        count = 0;
-        this.N = N;
-        dfs(0);
-        return count;
-    }
-
-    private void dfs(long start) {
-        if (start > N) {
-            return;
+    private void helper(int N, long cur) {
+        if (isConfusingNumber(cur)) {
+            res++;
         }
-        if (isConfusing(start)) {
-            count++;
-        }
-        for (int i = start == 0 ? 1 : 0; i < 5; i++) {
-            dfs(start * 10 + num[i]);
+        for (Integer i : map.keySet()) {
+            if (cur * 10 + i <= N && cur * 10 + i > 0) {
+                helper(N, cur * 10 + i);
+            }
         }
     }
-
-    private static boolean isConfusing(long s) {
-        long res = 0, x = s;
-        while (x > 0) {
-            int i = (int) (x % 10);
-            long digit = map.get(i);
-            res = res * 10 + digit;
-            x = x / 10;
+    private boolean isConfusingNumber(long n) {
+        long src = n;
+        long res = 0;
+        while (n > 0) {
+            res = res * 10 + map.get((int) n % 10); 
+            n /= 10;
         }
-        return res != s;
+        return res != src;
     }
 }
