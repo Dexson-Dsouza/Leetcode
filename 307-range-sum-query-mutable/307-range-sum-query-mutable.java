@@ -10,9 +10,8 @@ class NumArray {
         
         for(int i=1;i<=nums.length;i++){
             int parent = i + (i & -i);
-            while(parent<bit.length){
-                bit[parent]+=nums[i-1];
-                parent +=(parent & -parent);
+            if(parent<bit.length){
+                bit[parent]+=bit[i];
             }
         }
     }
