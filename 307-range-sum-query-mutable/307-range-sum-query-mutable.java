@@ -1,76 +1,50 @@
-public class NumArray {
-
-    class SegmentTreeNode {
-        int start, end;
-        SegmentTreeNode left, right;
-        int sum;
-
-        public SegmentTreeNode(int start, int end) {
-            this.start = start;
-            this.end = end;
-            this.left = null;
-            this.right = null;
-            this.sum = 0;
-        }
-    }
-      
-    SegmentTreeNode root = null;
-   
+class NumArray {
+    int[] bit;
+    int[] arr;
     public NumArray(int[] nums) {
-        root = buildTree(nums, 0, nums.length-1);
-    }
-
-    private SegmentTreeNode buildTree(int[] nums, int start, int end) {
-        if (start > end) {
-            return null;
-        } else {
-            SegmentTreeNode ret = new SegmentTreeNode(start, end);
-            if (start == end) {
-                ret.sum = nums[start];
-            } else {
-                int mid = start  + (end - start) / 2;             
-                ret.left = buildTree(nums, start, mid);
-                ret.right = buildTree(nums, mid + 1, end);
-                ret.sum = ret.left.sum + ret.right.sum;
-            }         
-            return ret;
+        bit=new int[nums.length+1];
+        arr=nums;
+        for(int i=1;i<=nums.length;i++){
+            bit[i]=nums[i-1];
         }
-    }
-   
-    void update(int i, int val) {
-        update(root, i, val);
-    }
-   
-    void update(SegmentTreeNode root, int pos, int val) {
-        if (root.start == root.end) {
-           root.sum = val;
-        } else {
-            int mid = root.start + (root.end - root.start) / 2;
-            if (pos <= mid) {
-                 update(root.left, pos, val);
-            } else {
-                 update(root.right, pos, val);
+        
+        for(int i=1;i<=nums.length;i++){
+            int parent = i + (i & -i);
+            while(parent<bit.length){
+                bit[parent]+=nums[i-1];
+                parent +=(parent & -parent);
             }
-            root.sum = root.left.sum + root.right.sum;
         }
-    }
-
-    public int sumRange(int i, int j) {
-        return sumRange(root, i, j);
     }
     
-    public int sumRange(SegmentTreeNode root, int start, int end) {
-        if (root.end == end && root.start == start) {
-            return root.sum;
-        } else {
-            int mid = root.start + (root.end - root.start) / 2;
-            if (end <= mid) {
-                return sumRange(root.left, start, end);
-            } else if (start >= mid+1) {
-                return sumRange(root.right, start, end);
-            }  else {    
-                return sumRange(root.right, mid+1, end) + sumRange(root.left, start, mid);
-            }
+    public void update(int index, int val) {
+        int i=index+1;
+        int diff = val-arr[index];
+        arr[index]=val;
+        
+        while(i<bit.length){
+            bit[i]+=diff;
+            i =   i + (i & -i);
         }
     }
+    
+    public int sumRange(int left, int right) {
+        return sum(right+1)-sum(left);
+    }
+    
+    int sum(int i){
+        int s=0;
+        while(i>=1){
+            s+=bit[i];
+            i -= (i&-i);
+        }
+        return s;
+    }
 }
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray obj = new NumArray(nums);
+ * obj.update(index,val);
+ * int param_2 = obj.sumRange(left,right);
+ */
