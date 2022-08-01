@@ -17,7 +17,6 @@ class Solution {
                     curIndex++;
                 }
                 curIndex=i+1;
-                
             }
         }
         int end=s.length();
