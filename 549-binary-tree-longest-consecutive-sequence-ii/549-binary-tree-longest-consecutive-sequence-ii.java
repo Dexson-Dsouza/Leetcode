@@ -15,53 +15,49 @@
  */
 class Solution {
     public int longestConsecutive(TreeNode root) {
-        int[] result=new int[3];
-        findLongest(root,result);
-        return result[2];
+        int[] longestRoute=findLongest(root,new int[3]);
+        return longestRoute[0];
     }
     
-    void findLongest(TreeNode root, int[] result){
+    public int[] findLongest(TreeNode root, int[] routes){
         if(root==null){
-            return;
+            return routes;
         }
         
-        int curValue=root.val;
+        int[] leftRoutes=findLongest(root.left,routes);
         
-        int increasingLen=1;
-        int decreasingLen=1;
+        int[] rightRoutes=findLongest(root.right,routes);
         
+        int increaseLength=1;
+        int decreasingLength=1;
         
-        if(root.left!=null){
-            findLongest(root.left,result);
-            if(root.left.val+1==curValue){
-                increasingLen=Math.max(increasingLen,1+result[0]);
-            }
-            if(root.left.val-1==curValue){
-                decreasingLen=Math.max(decreasingLen,1+result[1]);
-            }
+        if(root.left!=null && root.left.val+1==root.val){
+            increaseLength= Math.max(increaseLength,1 + leftRoutes[1]);
         }
         
-        if(root.right!=null){
-            findLongest(root.right,result);
-            if(root.right.val+1==curValue){
-                increasingLen=Math.max(increasingLen,1+result[0]);
-            }
-            if(root.right.val-1==curValue){
-                decreasingLen=Math.max(decreasingLen,1+result[1]);
-            }
+        if(root.left!=null && root.left.val-1==root.val){
+            decreasingLength= Math.max(decreasingLength,1 + leftRoutes[2]);
         }
         
-        result[0]=increasingLen;
-        result[1]=decreasingLen;
-        result[2]=Math.max(result[2],Math.max(increasingLen,decreasingLen));
+        if(root.right!=null && root.right.val+1==root.val){
+            increaseLength= Math.max(increaseLength,1 + rightRoutes[1]);
+        }
+        
+        if(root.right!=null && root.right.val-1==root.val){
+            decreasingLength= Math.max(decreasingLength,1 + rightRoutes[2]);
+        }
+        
+        int maxLen=Math.max(increaseLength,decreasingLength);
         
         if(root.left!=null && root.right!=null){
-            if(root.left.val+1==curValue && root.right.val-1==curValue){
-                result[2]=Math.max(result[2],increasingLen+decreasingLen-1);
+            if(root.left.val+1 == root.val && root.right.val-1 ==root.val){
+                maxLen=Math.max(maxLen,leftRoutes[1]+rightRoutes[2]+1);
             }
-            if(root.left.val-1==curValue && root.right.val+1==curValue){
-                result[2]=Math.max(result[2],increasingLen+decreasingLen-1);
+            
+            if(root.left.val-1 == root.val && root.right.val+1 ==root.val){
+                maxLen=Math.max(maxLen,leftRoutes[2]+rightRoutes[1]+1);
             }
         }
+        return new int[]{Math.max(maxLen,Math.max(leftRoutes[0],rightRoutes[0])),increaseLength,decreasingLength};
     }
 }
