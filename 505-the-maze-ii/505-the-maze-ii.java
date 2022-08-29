@@ -15,7 +15,7 @@ class Solution {
         
         Queue<int[]> currentPoints=new LinkedList<>();
         currentPoints.add(new int[]{start[0],start[1],0});
-        
+        visited[start[0]][start[1]]=1;
         int[][] dir=new int[][]{{0,-1},{0,1},{-1,0},{1,0}};
         
         while(currentPoints.size()>0){
@@ -25,7 +25,7 @@ class Solution {
             // System.out.println(row+" "+col);
             
             int steps=currentPoint[2];
-            visited[row][col]=steps;
+            
             for(int i=0;i<4;i++){
                 int curRow=row;
                 int curCol=col;
