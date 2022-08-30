@@ -6,7 +6,7 @@ class Solution {
         int newIntevalEnd=newInterval[1];
         
         for(int[] interval:intervals){
-            System.out.println(newIntervalStart+" "+newIntevalEnd);
+            // System.out.println(newIntervalStart+" "+newIntevalEnd);
             if(newIntervalStart<=interval[1] && newIntevalEnd>=interval[0]){
                 newIntevalEnd=Math.max(newIntevalEnd,interval[1]);
                 newIntervalStart=Math.min(newIntervalStart,interval[0]);
