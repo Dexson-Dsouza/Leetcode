@@ -7,7 +7,6 @@ class Solution {
             count[n]++;
         }
         
-        int[] maxPoints=new int[maxNum+1];
         for(int i=2;i<=maxNum;i++){
             count[i] = Math.max(count[i-1], count[i-2] + i* count[i]);
         }
