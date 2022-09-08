@@ -23,7 +23,7 @@ class Solution {
             smallestSum=Math.min(smallestSum,curSmallest);
             totalSum+=n;
         }
-        System.out.println(totalSum +" "+largestSum+" "+smallestSum);
+        // System.out.println(totalSum +" "+largestSum+" "+smallestSum);
         return Math.max(smallestSum<totalSum?totalSum-smallestSum:totalSum,largestSum);
     }
 }
