@@ -1,16 +1,20 @@
 class Solution {
     public int jump(int[] nums) {
-        int n=nums.length;
-        int[] dp=new int[n];
+        int inputSize=nums.length;
+        int[] minimumJumpToReach= new int[inputSize];
         
-        for(int i=n-2;i>=0;i--){
-            dp[i]=Integer.MAX_VALUE;
-            for(int j=i+1;j<=Math.min(n-1,i+nums[i]);j++){
-                if(dp[j]!=Integer.MAX_VALUE){
-                    dp[i]=Math.min(dp[i],1+dp[j]);
-                }
+        Arrays.fill(minimumJumpToReach,Integer.MAX_VALUE);
+        minimumJumpToReach[0]=0;
+        
+        for(int i=0;i<inputSize;i++){
+            if(minimumJumpToReach[i]==Integer.MAX_VALUE){
+                break;
+            }
+            
+            for(int j=i;j<=Math.min(inputSize-1,i+nums[i]);j++){
+                minimumJumpToReach[j] = Math.min(minimumJumpToReach[j], 1 + minimumJumpToReach[i]);
             }
         }
-        return dp[0];
+        return minimumJumpToReach[inputSize-1];
     }
 }
