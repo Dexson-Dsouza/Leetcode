@@ -6,19 +6,19 @@ class Solution {
         int curPower=power;
         Arrays.sort(tokens);
         while(left<=right){
-            int curScore=left - (tokens.length-1-right);
+            int oldScore=left - (tokens.length-1-right);
             if(curPower>=tokens[left]){
                 curPower-=tokens[left];
                 left++;
             }else{
-                if(curScore<1){
+                if(oldScore<1){
                     break;
                 }
                 curPower+=tokens[right];
                 right--;
             }
-            maxScore=Math.max(maxScore,left - (tokens.length-1-right));
-            // System.out.println(left+" "+right+" "+maxScore+" "+curPower);
+            int curScore=left - (tokens.length-1-right);
+            maxScore=Math.max(maxScore,curScore);
         }
         return maxScore;
     }
