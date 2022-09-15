@@ -4,7 +4,6 @@ class Solution {
         int n2 = nums2.length;
         int leftMed= (n1+n2+1)/2;
         int rightMed= (n1+n2+2)/2;
-        // System.out.println((double)getMedian(nums1,0,nums2,0,leftMed)+" "+(double)getMedian(nums1,0,nums2,0,rightMed));
         return ((double)getMedian(nums1,0,nums2,0,leftMed)+(double)getMedian(nums1,0,nums2,0,rightMed))/2;
     }
     
