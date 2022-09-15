@@ -29,18 +29,6 @@ class Solution {
                 visited[nr][nc]=true;
                 pq.add(new int[]{cost+grid[nr][nc],nr,nc});
             }
-            // if(row-1>=0 && visited[row-1][col]==false){
-            //     int nr=row-1;
-            //     int nc=col;
-            //     visited[nr][nc]=true;
-            //     pq.add(new int[]{cost+grid[nr][nc],nr,nc});
-            // }
-            // if(col-1>=0 && visited[row][col-1]==false){
-            //     int nr=row;
-            //     int nc=col-1;
-            //     visited[nr][nc]=true;
-            //     pq.add(new int[]{cost+grid[nr][nc],nr,nc});
-            // }
         }
         return -1;
     }
