@@ -2,8 +2,8 @@ class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
         int n1 = nums1.length;
         int n2 = nums2.length;
-        int leftMed= (n1+n2+1)/2;
-        int rightMed= (n1+n2+2)/2;
+        int leftMed= (n1+n2)/2 + 1;
+        int rightMed= (n1+n2)%2 == 0? leftMed-1 : leftMed;
         return ((double)getMedian(nums1,0,nums2,0,leftMed)+(double)getMedian(nums1,0,nums2,0,rightMed))/2;
     }
     
