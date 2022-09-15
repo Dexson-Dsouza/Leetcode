@@ -20,11 +20,11 @@ class Solution {
             cur=cur.next;
         }
         
-        int index = k>=size? k%size:k;
-        if(index==0){
+        int place = k>=size? k%size:k;
+        if(place==0){
             return head;
         }
-        index = (size-index);
+        int index = (size-place);
         
         // System.out.println(index);
         cur=head;
