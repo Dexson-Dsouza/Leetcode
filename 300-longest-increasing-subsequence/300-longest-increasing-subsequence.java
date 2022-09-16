@@ -1,28 +1,28 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
-        List<Integer> subseq=new ArrayList<>();
+        List<Integer> arr=new ArrayList<>();
+        
         for(int n:nums){
-            
-            int index=subseq.size();
-            int left=0;
-            int right=subseq.size()-1;
-            while(left<=right){
-                int mid=left+(right-left)/2;
-                if(subseq.get(mid)>=n){
-                    index=mid;
-                    right=mid-1;
+            int l=0;
+            int r=arr.size()-1;
+            int i=arr.size();
+            while(l<=r){
+                int mid = (l+r)/2;
+                if(n<=arr.get(mid)){
+                    i=mid;
+                    r=mid-1;
                 }else{
-                    left=mid+1;
+                    l=mid+1;
                 }
             }
-            
-            if(index==subseq.size()){
-                subseq.add(n);
+            if(i==arr.size()){
+                arr.add(n);
             }else{
-                subseq.set(index,n);
+                arr.set(i,n);
             }
-            // System.out.println(subseq+" "+index);
+            // System.out.println(arr);
+            
         }
-        return subseq.size();
+        return arr.size();
     }
 }
