@@ -78,7 +78,9 @@ class Solution {
         
 		// reached dest? return list with dest word
         if( src.equals( dest ) ) {
-            paths.add( new ArrayList(){{ add(dest); }} );
+            List<String> path=new ArrayList<>();
+            path.add(dest);
+            paths.add(path);
             return paths;
         }
 
@@ -93,7 +95,8 @@ class Solution {
             for(List<String> path : adjPaths) {
                 if( path.isEmpty() ) continue;
                 
-                List<String> newPath = new ArrayList(){{ add(src); }};
+                List<String> newPath=new ArrayList<>();
+                newPath.add(src);
                 newPath.addAll(path);
                 
                 paths.add(newPath);
