@@ -28,24 +28,23 @@ class Solution {
         if(head==null){
             return null;
         }
-        
-        ListNode slow=head;
-        ListNode fast=head;
-        ListNode prev=null;
-        while(fast.next!=null && fast.next.next!=null){
-            prev=slow;
-            slow=slow.next;
-            fast=fast.next.next;
+        List<Integer> nums=new ArrayList<>();
+        ListNode cur=head;
+        while(cur!=null){
+            nums.add(cur.val);
+            cur=cur.next;
         }
-        TreeNode root=new TreeNode(slow.val);
-        if(prev!=null){
-            prev.next=null;
+        return buildTree(nums,0,nums.size()-1);
+    }
+    
+    public TreeNode buildTree(List<Integer> nums, int l, int r){
+        if(l>r){
+            return null;
         }
-        ListNode left=slow==head?null:head;
-        ListNode right=slow.next;
-        slow.next=null;
-        root.left = sortedListToBST(left);
-        root.right = sortedListToBST(right);
+        int mid = l + (r-l)/2;
+        TreeNode root=new TreeNode(nums.get(mid));
+        root.left=buildTree(nums,l,mid-1);
+        root.right=buildTree(nums,mid+1,r);
         return root;
     }
 }
