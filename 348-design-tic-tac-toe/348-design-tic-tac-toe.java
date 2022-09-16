@@ -1,46 +1,45 @@
 class TicTacToe {
-    Map<Integer,Map<Integer,Integer>> rowMap;
-    Map<Integer,Map<Integer,Integer>> colMap;
-    Map<Integer,Map<Integer,Integer>> diagMap;
-    Map<Integer,Map<Integer,Integer>> antiDiagMap;
-    Boolean end=false;
-    int req;
+    int[][] board;
     public TicTacToe(int n) {
-        req=n;
-        rowMap=new HashMap<>();
-        colMap=new HashMap<>();
-        diagMap=new HashMap<>();
-        antiDiagMap=new HashMap<>();
-        for(int i=1;i<=2;i++){
-            rowMap.put(i,new HashMap<>());
-            colMap.put(i,new HashMap<>());
-            diagMap.put(i,new HashMap<>());
-            antiDiagMap.put(i,new HashMap<>());
-        }
+        board=new int[n][n];
     }
     
     public int move(int row, int col, int player) {
-        int diagKey=row+col;
-        int antiDiagKey=row-col;
-        rowMap.get(player).put(row,rowMap.get(player).getOrDefault(row,0)+1);
-        colMap.get(player).put(col,colMap.get(player).getOrDefault(col,0)+1);
-        diagMap.get(player).put(diagKey,diagMap.get(player).getOrDefault(diagKey,0)+1);
-        antiDiagMap.get(player).put(antiDiagKey,antiDiagMap.get(player).getOrDefault(antiDiagKey,0)+1);
+        board[row][col]=player;
+        for(int i=0;i<board.length;i++){
+            boolean wins=true;
+            for(int j=0;j<board.length;j++){
+                if(board[i][j]!=player){
+                    wins=false;
+                }
+            }
+            if(wins){
+                return player;
+            }
+        }
         
-        if(rowMap.get(player).get(row)==req){
-            end=true;
-            return player;
+        for(int i=0;i<board.length;i++){
+            boolean wins=true;
+            for(int j=0;j<board.length;j++){
+                if(board[j][i]!=player){
+                    wins=false;
+                }
+            }
+            if(wins){
+                return player;
+            }
         }
-        if(colMap.get(player).get(col)==req){
-            end=true;
-            return player;
+        boolean winsDiag=true;
+        boolean winsAntiDiag=true;
+        for(int i=0;i<board.length;i++){
+            if(board[i][i]!=player){
+                winsDiag=false;
+            }   
+            if(board[i][board.length-1-i]!=player){
+                winsAntiDiag=false;
+            }
         }
-        if(diagMap.get(player).get(diagKey)==req){
-            end=true;
-            return player;
-        }
-        if(antiDiagMap.get(player).get(antiDiagKey)==req){
-            end=true;
+        if(winsDiag || winsAntiDiag){
             return player;
         }
         return 0;
