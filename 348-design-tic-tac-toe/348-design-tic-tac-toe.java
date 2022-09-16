@@ -6,29 +6,25 @@ class TicTacToe {
     
     public int move(int row, int col, int player) {
         board[row][col]=player;
-        for(int i=0;i<board.length;i++){
-            boolean wins=true;
-            for(int j=0;j<board.length;j++){
-                if(board[i][j]!=player){
-                    wins=false;
-                }
+        boolean winsRow=true;
+        for(int j=0;j<board.length;j++){
+            if(board[row][j]!=player){
+                winsRow=false;
             }
-            if(wins){
-                return player;
+        }
+        if(winsRow){
+            return player;
+        }
+        boolean winsCol=true;
+        for(int j=0;j<board.length;j++){
+            if(board[j][col]!=player){
+                winsCol=false;
             }
+        }
+        if(winsCol){
+            return player;
         }
         
-        for(int i=0;i<board.length;i++){
-            boolean wins=true;
-            for(int j=0;j<board.length;j++){
-                if(board[j][i]!=player){
-                    wins=false;
-                }
-            }
-            if(wins){
-                return player;
-            }
-        }
         boolean winsDiag=true;
         boolean winsAntiDiag=true;
         for(int i=0;i<board.length;i++){
