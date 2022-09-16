@@ -1,72 +1,35 @@
 class Solution {
-    public boolean canTransform(String a, String b){
-        int len=a.length();
-        int differnceCharCount=0;
-        for(int i=0;i<len;i++){
-            if(a.charAt(i)!=b.charAt(i)){
-                differnceCharCount++;
-            }
-        }
-        return differnceCharCount==1;
-    }
-    
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        Map<String,Set<String>> adj=new HashMap<>();
+        Set<String> wordSet=new HashSet<>(wordList);
         
-        Set<String> words=new HashSet<>();
-        for(String word:wordList){
-            adj.put(word,new HashSet<>());
-            words.add(word);
-        }
-        
-        if(words.contains(endWord)==false){
+        if(wordSet.contains(endWord)==false){
             return 0;
         }
-        
-        for(int i=0;i<wordList.size();i++){
-            for(int j=i+1;j<wordList.size();j++){
-                String wordA=wordList.get(i);
-                String wordB=wordList.get(j);
-                if(canTransform(wordA,wordB)){
-                    adj.get(wordA).add(wordB);
-                    adj.get(wordB).add(wordA);
-                }
-            }
-        }
-        
-        adj.put(beginWord,new HashSet<>());
-        for(int i=0;i<wordList.size();i++){
-            String wordA=wordList.get(i);
-            if(canTransform(wordA,beginWord)){
-                adj.get(beginWord).add(wordA);
-                adj.get(wordA).add(beginWord);
-            }
-        }
-        
-        Queue<String> curWords=new LinkedList<>();
-        curWords.add(beginWord);
-        Set<String> visited=new HashSet<>();
-        visited.add(beginWord);
-        int steps=0;
-        while(curWords.size()>0){
-            int curSize=curWords.size();
-            // System.out.println(steps+"+---------------");
+        int length=1;
+        Queue<String> wordQueue=new LinkedList<>();
+        wordQueue.add(beginWord);
+        wordSet.remove(beginWord);
+        while(wordQueue.size()>0){
+            int curSize=wordQueue.size();
             while(curSize>0){
                 curSize--;
-                String curWord=curWords.poll();
-                
-                // System.out.println(curWord);
+                String curWord=wordQueue.poll();
                 if(curWord.equals(endWord)){
-                    return steps+1;
+                    return length;
                 }
-                for(String nextWord:adj.get(curWord)){
-                    if(visited.contains(nextWord)==false){
-                        visited.add(nextWord);
-                        curWords.add(nextWord);
+                for(int i=0;i<curWord.length();i++){
+                    char[] curWordArr=curWord.toCharArray();
+                    for(int j=0;j<26;j++){
+                        curWordArr[i]=(char)('a'+j);
+                        String nextWord=new String(curWordArr);
+                        if(wordSet.contains(nextWord)){
+                            wordSet.remove(nextWord);
+                            wordQueue.add(nextWord);
+                        }
                     }
                 }
             }
-            steps++;
+            length++;
         }
         return 0;
     }
