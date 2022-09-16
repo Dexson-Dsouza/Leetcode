@@ -46,7 +46,7 @@ class Solution {
     
     void findWords(char[][] board, int row, int col, Trie root, Set<String> foundWordSet){
         // System.out.println(board[row][col]);
-        
+        Trie parent=root;
         char temp=board[row][col];
         board[row][col]='*';
         root = root.children[temp-'a'];
@@ -65,5 +65,16 @@ class Solution {
             }
         }
         board[row][col]=temp;
+        
+        boolean isEmpty=true;
+        for(int i=0;i<26;i++){
+            if(root.children[i]!=null){
+                isEmpty=false;
+            }
+        }
+        
+        if(isEmpty){
+            parent.children[temp-'a']=null;
+        }
     }
 }
