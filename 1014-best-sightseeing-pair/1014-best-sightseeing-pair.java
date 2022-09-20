@@ -1,14 +1,22 @@
 class Solution {
     public int maxScoreSightseeingPair(int[] values) {
-        int totalValues=values.length;
-        int bestSpot=-1;
-        int maxScore=0;
+        Deque<int[]> bestPrevSpots=new LinkedList<>();
         
-        for(int i=0;i<totalValues;i++){
-            maxScore = Math.max(maxScore,bestSpot+values[i]);
+        bestPrevSpots.add(new int[]{values[0],0});
+        
+        int bestScore=0;
+        
+        for(int i=1;i<values.length;i++){
+            int[] prevSpot = bestPrevSpots.peekFirst();
+            int curScore = values[i] + prevSpot[0] + (prevSpot[1]-i);
+            bestScore=Math.max(bestScore,curScore);
             
-            bestSpot = Math.max(bestSpot-1,values[i]-1);
+            int curSpotScore = i+values[i];
+            while(bestPrevSpots.size()>0 && (bestPrevSpots.peekFirst()[1]+bestPrevSpots.peekFirst()[0])<=curSpotScore){
+                bestPrevSpots.pollFirst();
+            }
+            bestPrevSpots.add(new int[]{values[i],i});
         }
-        return maxScore;
+        return bestScore;
     }
 }
