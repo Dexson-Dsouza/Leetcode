@@ -38,6 +38,7 @@ class UndergroundSystem {
         if(totalTravelTime.get(startStation).containsKey(endStation)==false){
              return 0;
         }
+        Double t=totalTravelTime.get(startStation).get(endStation);
         int countOfPassengers= totalPassengers.get(startStation).get(endStation);
         return totalTravelTime.get(startStation).get(endStation)/countOfPassengers;
     }
