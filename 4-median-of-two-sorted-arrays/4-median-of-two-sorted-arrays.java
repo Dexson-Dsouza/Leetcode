@@ -1,31 +1,34 @@
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        int n1 = nums1.length;
-        int n2 = nums2.length;
-        int leftMed= (n1+n2)/2 + 1;
-        int rightMed= (n1+n2)%2 == 0? leftMed-1 : leftMed;
-        return ((double)getMedian(nums1,0,nums2,0,leftMed)+(double)getMedian(nums1,0,nums2,0,rightMed))/2;
+        int len=nums1.length+nums2.length;
+        
+        int k1 = len/2 + 1;
+        int k2 = len%2==1?k1:k1-1;
+        
+        double kthELement = getKth(nums1,nums2,0,0,k1);
+        double nextkthELement = getKth(nums1,nums2,0,0,k2);
+        return (kthELement+nextkthELement)/2;
     }
     
-    double getMedian(int a[], int aStart, int[] b, int bStart, int k){
-        if(aStart>=a.length){
-            return b[bStart+k-1];
+    double getKth(int[] nums1, int[] nums2, int start1, int start2, int k){
+        if(start1==nums1.length){
+            return nums2[start2+k-1];
         }
-        if(bStart>=b.length){
-            return a[aStart+k-1];
+        if(start2==nums2.length){
+            return nums1[start1+k-1];
         }
         
         if(k==1){
-            return Math.min(a[aStart],b[bStart]);
+            return Math.min(nums1[start1],nums2[start2]);
         }
-        int aMidIndex= aStart + k/2 -1;
-        int aMid =  aMidIndex < a.length? a[aMidIndex]:Integer.MAX_VALUE;
-        int bMidIndex= bStart + k/2 -1;
-        int bMid =  bMidIndex < b.length? b[bMidIndex]:Integer.MAX_VALUE;
-        if(aMid<bMid){
-            return getMedian(a,aStart+k/2,b,bStart,k-k/2);
+        int mid1 = start1 + k/2 -1;
+        int firstMid = mid1<nums1.length?nums1[mid1]:Integer.MAX_VALUE;
+        int mid2 = start2 + k/2 -1;
+        int secondMid = mid2<nums2.length?nums2[mid2]:Integer.MAX_VALUE;
+        if(firstMid<secondMid){
+            return getKth(nums1,nums2,start1+k/2,start2,k-k/2);
         }else{
-            return getMedian(a,aStart,b,bStart+k/2,k-k/2);
+            return getKth(nums1,nums2,start1,start2+k/2,k-k/2);
         }
     }
 }
