@@ -1,103 +1,110 @@
-class Node{
-    Map<String,Node> dirs;
-    Map<String,String> files;
-    Node(){
-        dirs=new HashMap<>();
-        files=new HashMap<>();
-    }
-}
 class FileSystem {
     
-    Node root;
-    public FileSystem() {
-        root=new Node();
+    static class Trie{
+        Map<String,Trie> dirs;
+        Map<String,String> files;
+        Trie(){
+            dirs=new HashMap<>();
+            files=new HashMap<>();
+        }
     }
     
-    List<String> getFileAndDirs(Node cur){
-        List<String> combinedSet=new ArrayList<>();
-        for(String file:cur.files.keySet()){
-            combinedSet.add(file);
-        }
-        
-        for(String file:cur.dirs.keySet()){
-            combinedSet.add(file);
-        }
-        Collections.sort(combinedSet);
-        return combinedSet;
+    Trie root;
+    public FileSystem() {
+        root=new Trie();
     }
     
     public List<String> ls(String path) {
-        if(path.equals("/")){
-            return getFileAndDirs(root);
-        }
-        String[] dirs=path.substring(1).split("/");
-        
-        
-        List<String> fileList=new ArrayList<>();
-        Node cur=root;
-        int len=dirs.length;
-        for(int index=0;index<len-1;index++){
-            if(cur.dirs.containsKey(dirs[index])==false){
-                return fileList;
+        List<String> ls=new ArrayList<>();
+        Trie cur=root;
+        path=path.trim();
+        String fileName="";
+        if(path.equals("/")==false){
+            if(path.charAt(0)=='/'){
+                path=path.substring(1);
             }
-            cur = cur.dirs.get(dirs[index]);
+            String[] dirs=path.split("/");
+            
+            for(int i=0;i<dirs.length-1;i++){
+                String dir=dirs[i];
+                cur=cur.dirs.get(dir);   
+            }
+            
+            if(cur.files.containsKey(dirs[dirs.length-1])){
+                fileName=dirs[dirs.length-1];
+            }else{
+                cur= cur.dirs.get(dirs[dirs.length-1]);
+            }
+            
         }
         
-        // System.out.println(path+" "+dirs[len-1]); 
-        if(cur.files.containsKey(dirs[len-1])){
-            fileList.add(dirs[len-1]);
-            return fileList;
+        if(fileName.length()>0){
+            ls.add(fileName);
+        }else{
+            Map<String,String> files=cur.files;
+            for(String dir:cur.dirs.keySet()){
+                ls.add(dir);
+            }
+            for(String file:cur.files.keySet()){
+                ls.add(file);
+            }
         }
-        if(cur.dirs.containsKey(dirs[len-1])==false){
-            return fileList;
-        }
-        cur = cur.dirs.get(dirs[len-1]);
-        return getFileAndDirs(cur);
+        Collections.sort(ls);
+        return ls;
     }
     
     public void mkdir(String path) {
-        String[] dirs=path.substring(1).split("/");
-        Node cur=root;
-        int len=dirs.length;
-        for(int index=0;index<len;index++){
-            // if(dirs[index].length()==0){
-            //     continue;
-            // }
-            // System.out.println(dirs[index]);
-            
-            if(cur.dirs.containsKey(dirs[index])==false){
-                cur.dirs.put(dirs[index],new Node());
-            }
-            cur = cur.dirs.get(dirs[index]);
+        Trie cur=root;
+        if(path.charAt(0)=='/'){
+            path=path.substring(1);
         }
-        // cur.files.put(dirs[len-1],"");
+        String[] dirs=path.split("/");
+        for(int i=0;i<dirs.length;i++){
+            String dir=dirs[i];
+            if(cur.dirs.containsKey(dir)==false){
+                cur.dirs.put(dir,new Trie());
+            }
+            cur=cur.dirs.get(dir);   
+        }
     }
     
     public void addContentToFile(String filePath, String content) {
-        String[] dirs=filePath.substring(1).split("/");
-        Node cur=root;
-        int len=dirs.length;
-        for(int index=0;index<len-1;index++){
-            if(cur.dirs.containsKey(dirs[index])==false){
-                cur.dirs.put(dirs[index],new Node());
-            }
-            cur = cur.dirs.get(dirs[index]);
+        Trie cur=root;
+        if(filePath.charAt(0)=='/'){
+            filePath=filePath.substring(1);
         }
-        if(cur.files.containsKey(dirs[len-1])==false){
-            cur.files.put(dirs[len-1],"");
+        String[] dirs=filePath.split("/");
+        for(int i=0;i<dirs.length-1;i++){
+            String dir=dirs[i];
+            if(cur.dirs.containsKey(dir)==false){
+                cur.dirs.put(dir,new Trie());
+            }
+            cur=cur.dirs.get(dir);   
         }
         
-        cur.files.put(dirs[len-1],cur.files.get(dirs[len-1])+ content);
+        String fileName=dirs[dirs.length-1];
+        if(cur.files.containsKey(fileName)==false){
+            cur.files.put(fileName,"");
+        }
+        cur.files.put(fileName,cur.files.get(fileName)+content);
     }
     
     public String readContentFromFile(String filePath) {
-        String[] dirs=filePath.substring(1).split("/");
-        Node cur=root;
-        int len=dirs.length;
-        for(int index=0;index<len-1;index++){
-            cur = cur.dirs.get(dirs[index]);
+        Trie cur=root;
+        if(filePath.charAt(0)=='/'){
+            filePath=filePath.substring(1);
         }
-        return cur.files.get(dirs[len-1]);
+        String[] dirs=filePath.split("/");
+        for(int i=0;i<dirs.length-1;i++){
+            String dir=dirs[i];
+            if(cur.dirs.containsKey(dir)==false){
+                cur.dirs.put(dir,new Trie());
+            }
+            cur=cur.dirs.get(dir);   
+        }
+        
+        String fileName=dirs[dirs.length-1];
+        return cur.files.get(fileName);
     }
 }
 
