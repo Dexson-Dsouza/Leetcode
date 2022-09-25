@@ -9,19 +9,25 @@ class Solution {
             smallest[index]=currentSmallest;
         }
         
-        PriorityQueue<Integer> st=new PriorityQueue<>();
+        Stack<Integer> st=new Stack<>();
         
         for(int index=len-1;index>=1;index--){
-            int second=nums[index];
-            while(st.size()>0 && st.peek()<=smallest[index-1]){
-                st.poll();
+            if(nums[index]<=smallest[index]){
+                continue;
             }
+            int second=nums[index];
+            // while(st.size()>0 && st.peek()>second){
+            //     st.pop();
+            // }
+            while(st.size()>0 && st.peek()<=smallest[index]){
+                st.pop();
+            }
+            
             
             if(st.size()>0 && st.peek()<second){
                 return true;
             }
-            st.add(second);
-            
+            st.push(second);
         }
         return false;
     }
