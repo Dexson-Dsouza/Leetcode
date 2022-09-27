@@ -8,7 +8,7 @@ class Solution {
         // if (map.containsKey(s)) 
         //     return map.get(s);
 
-        LinkedList<String>res = new LinkedList<String>();     
+        List<String>res = new ArrayList<String>();     
         if (s.length() == 0) {
             res.add("");
             return res;
