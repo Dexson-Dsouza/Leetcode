@@ -23,13 +23,10 @@ class BrowserHistory {
         visitedNode.prev=head;
         head.next=visitedNode;
         head=visitedNode;
-
-        // System.out.println(head.link);
     }
     
     public String back(int steps) {
         while(steps>0 && head.prev!=null){
-            // System.out.println(head.link+"_");
             head=head.prev;
             steps--;
         }
@@ -38,7 +35,6 @@ class BrowserHistory {
     
     public String forward(int steps) {
         while(steps>0 && head.next!=null){
-            // System.out.println(head.link+"*");
             head=head.next;
             steps--;
         }
