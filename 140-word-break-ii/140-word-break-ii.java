@@ -3,11 +3,7 @@ class Solution {
         return DFS(s, new HashSet<>( wordDict), new HashMap<String, LinkedList<String>>());
     }       
 
-// DFS function returns an array including all substrings derived from s.
     List<String> DFS(String s, Set<String> wordDict, HashMap<String, LinkedList<String>>map) {
-        // if (map.containsKey(s)) 
-        //     return map.get(s);
-
         List<String>res = new ArrayList<String>();     
         if (s.length() == 0) {
             res.add("");
@@ -20,7 +16,6 @@ class Solution {
                     res.add(word + (sub.isEmpty() ? "" : " ") + sub);               
             }
         }       
-        // map.put(s, res);
         return res;
     }
 }
