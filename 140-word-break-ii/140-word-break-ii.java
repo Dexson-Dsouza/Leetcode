@@ -5,8 +5,8 @@ class Solution {
 
 // DFS function returns an array including all substrings derived from s.
     List<String> DFS(String s, Set<String> wordDict, HashMap<String, LinkedList<String>>map) {
-        // if (map.containsKey(s)) 
-        //     return map.get(s);
+        if (map.containsKey(s)) 
+            return map.get(s);
 
         LinkedList<String>res = new LinkedList<String>();     
         if (s.length() == 0) {
