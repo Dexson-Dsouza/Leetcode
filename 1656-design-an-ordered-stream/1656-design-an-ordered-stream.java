@@ -3,7 +3,7 @@ class OrderedStream {
     int currentIndex=0;
     public OrderedStream(int n) {
         values=new String[n];
-        Arrays.fill(values,null);
+        // Arrays.fill(values,null);
     }
     
     public List<String> insert(int idKey, String value) {
