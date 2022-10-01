@@ -1,9 +1,9 @@
 class Solution {
     public List<String> wordBreak(String s, List<String> wordDict) {
-        return DFS(s, new HashSet<>( wordDict), new HashMap<String, LinkedList<String>>());
+        return DFS(s, new HashSet<>( wordDict), new HashMap<String, ArrayList<String>>());
     }       
 
-    List<String> DFS(String s, Set<String> wordDict, HashMap<String, LinkedList<String>>map) {
+    List<String> DFS(String s, Set<String> wordDict, HashMap<String, ArrayList<String>>map) {
         List<String>res = new ArrayList<String>();     
         if (s.length() == 0) {
             res.add("");
