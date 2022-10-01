@@ -1,29 +1,25 @@
 class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
-        Map<Integer,Boolean> dict=new HashMap<>();
-        return solve(s,wordDict,dict,0);   
+        Map<String,Boolean> dict=new HashMap<>();
+        return solve(s,wordDict,dict);   
     }
     
-    public boolean solve(String s, List<String> wordDict, Map<Integer,Boolean> dict, int index){
-        if(s.length()==index){
+    public boolean solve(String s, List<String> wordDict, Map<String,Boolean> dict){
+        if(s.length()==0){
             return true;
         }
         
-        if(dict.containsKey(index)){
-            return dict.get(index);
+        if(dict.containsKey(s)){
+            return dict.get(s);
         }
         boolean canMake=false;
         for(String word:wordDict){
-            if(index+word.length()>s.length()){
-                continue;
-            }
-            String substr = s.substring(index,index+word.length());
-            if(substr.equals(word) && solve(s,wordDict,dict,index+word.length())==true){
+            if(s.startsWith(word) && solve(s.substring(word.length()),wordDict,dict)==true){
                 canMake=true;
                 break;
             }
         }
-        dict.put(index,canMake);
+        dict.put(s,canMake);
         return canMake;
     }
 }
