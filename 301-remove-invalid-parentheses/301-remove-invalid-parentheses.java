@@ -1,47 +1,63 @@
-class Solution {
+public class Solution {
     public List<String> removeInvalidParentheses(String s) {
-        Set<String> result=new HashSet<>();
+      List<String> res = new ArrayList<>();
+      
+      // sanity check
+      if (s == null) return res;
+      
+      Set<String> visited = new HashSet<>();
+      Queue<String> queue = new LinkedList<>();
+      
+      // initialize
+      queue.add(s);
+      visited.add(s);
+      
+      boolean found = false;
+      Queue<String> nextLevel = new LinkedList<>(); 
+      while (!queue.isEmpty()) {
+        s = queue.poll();
         
-        StringBuilder sb=new StringBuilder();
-        int maxParenthesis=0;
-        int left=0;
-        for(char ch:s.toCharArray()){
-            if(ch=='('){
-                left++; 
-            }else if(ch==')'){
-                if(left>0){
-                    left--;
-                }else{
-                    maxParenthesis++;
-                }
-            }
+        if (isValid(s)) {
+          // found an answer, add to the result
+          res.add(s);
+          found = true;
         }
-        maxParenthesis+=left;
-        generatePerms(s,0,sb,0,maxParenthesis,result);
-        return new ArrayList<>(result);
+      
+        if (found) continue;
+      
+        // generate all possible states
+        for (int i = 0; i < s.length(); i++) {
+          // we only try to remove left or right paren
+          if (s.charAt(i) != '(' && s.charAt(i) != ')') continue;
+        
+          String t = s.substring(0, i) + s.substring(i + 1);
+        
+          if (!visited.contains(t)) {
+            // for each state, if it's not visited, add it to the queue
+            nextLevel.add(t);
+            visited.add(t);
+          }
+        }
+          
+         if(found==false && queue.size()==0){
+             queue=nextLevel;
+             nextLevel=new LinkedList();
+         }
+      }
+      
+      return res;
     }
     
-    void generatePerms(String s, int i, StringBuilder sb, int left, int maxParenthesis, Set<String>result){
-        if(left<0){
-            return;
-        }
-        if(i==s.length()){
-            // System.out.println(sb+" "+left+" "+maxParenthesis);
-            if(maxParenthesis==0 && left==0){
-                result.add(sb.toString());
-            }
-            return;
-        }
-        
-        generatePerms(s,i+1,sb,left,maxParenthesis-1,result);
-        sb.append(s.charAt(i));
-        if(s.charAt(i)=='('){
-            generatePerms(s,i+1,sb,left+1,maxParenthesis,result);
-        }else if(s.charAt(i)==')'){
-            generatePerms(s,i+1,sb,left-1,maxParenthesis,result);
-        }else{
-            generatePerms(s,i+1,sb,left,maxParenthesis,result);
-        }
-        sb.deleteCharAt(sb.length()-1);
+    // helper function checks if string s contains valid parantheses
+    boolean isValid(String s) {
+      int count = 0;
+    
+      for (int i = 0; i < s.length(); i++) {
+        char c = s.charAt(i);
+        if (c == '(') count++;
+        if (c == ')' && count-- == 0) return false;
+      }
+    
+      return count == 0;
     }
 }
