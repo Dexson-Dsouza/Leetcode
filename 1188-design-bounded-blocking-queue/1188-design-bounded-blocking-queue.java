@@ -1,9 +1,9 @@
 class BoundedBlockingQueue {
     Semaphore  push;
     Semaphore  pop;
-    Deque<Integer> nums;
+    ConcurrentLinkedDeque<Integer> nums;
     public BoundedBlockingQueue(int capacity) {
-        nums=new LinkedList<>();
+        nums=new ConcurrentLinkedDeque<>();
         push=new Semaphore(capacity);
         pop=new Semaphore(0);
     }
