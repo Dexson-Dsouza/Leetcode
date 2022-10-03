@@ -1,24 +1,28 @@
 class Solution {
     public int minCost(String colors, int[] neededTime) {
-        int time=0;
-        
-        int index=0;
-        int len=colors.length();
-        while(index<len){
-            if(index+1<len && colors.charAt(index)==colors.charAt(index+1)){
-                int maxTimeBalloon=neededTime[index];
-                int sum=neededTime[index];
-                index++;
-                while(index<len && colors.charAt(index)==colors.charAt(index-1)){
-                    sum+=neededTime[index];
-                    maxTimeBalloon=Math.max(maxTimeBalloon,neededTime[index]);
-                    index++;
+        int i=0;
+        int j=0;
+        int cost=0;
+        while(j<colors.length()){
+            // System.out.println(i+" "+j);
+            while(j<colors.length() && colors.charAt(j)==colors.charAt(i)){
+                j++;
+            }
+            
+            if(j-i>1){
+                int sum=0;
+                int minCost=Integer.MIN_VALUE;
+                
+                while(i<j){
+                    minCost=Math.max(minCost,neededTime[i]);
+                    sum+=neededTime[i];
+                    i++;
                 }
-                time+=sum-maxTimeBalloon;
+                cost+=sum-minCost;
             }else{
-                index++;
+                i=j;
             }
         }
-        return time;
+        return cost;
     }
 }
