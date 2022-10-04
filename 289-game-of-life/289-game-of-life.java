@@ -10,28 +10,33 @@ class Solution {
         for(int i=0;i<rows;i++){
             for(int j=0;j<cols;j++){
                 int liveCount=0;
-                int currentState=board[i][j];
+                // board[i][j]= board[i][j]==1?-1:-2;
+                int currentState= board[i][j];
                 for(int dir=0;dir<8;dir++){
                     int nr=i+directions[dir][0];
                     int nc=j+directions[dir][1];
 
-                    if(nr>=0 && nr<rows && nc>=0 && nc<cols && board[nr][nc]==1){
+                    if(nr>=0 && nr<rows && nc>=0 && nc<cols && Math.abs(board[nr][nc])==1){
                         liveCount++;
                     }
                 }
 
                 if(currentState==1 && (liveCount<2 || liveCount>3)){
-                    currentState=0;
+                    currentState=-1;
                 }
                 if(currentState==0 && liveCount==3){
-                    currentState=1;
+                    currentState=2;
                 }
-                nextState[i][j]=currentState;
+                board[i][j]=currentState;
             }
         }    
         for(int i=0;i<rows;i++){
             for(int j=0;j<cols;j++){
-                board[i][j]=nextState[i][j];        
+                if(board[i][j]>0){
+                    board[i][j]=1;
+                }else{
+                    board[i][j]=0;
+                }
             }
         }
     }
