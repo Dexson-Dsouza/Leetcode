@@ -5,37 +5,32 @@ class TicTacToe {
     }
     
     public int move(int row, int col, int player) {
+        int rowCount=0;
+        int colCount=0;
+        int diagCount=0;
+        int antiDiagCount=0;
         board[row][col]=player;
-        boolean winsRow=true;
-        for(int j=0;j<board.length;j++){
-            if(board[row][j]!=player){
-                winsRow=false;
-            }
-        }
-        if(winsRow){
-            return player;
-        }
-        boolean winsCol=true;
-        for(int j=0;j<board.length;j++){
-            if(board[j][col]!=player){
-                winsCol=false;
-            }
-        }
-        if(winsCol){
-            return player;
-        }
+        int size = board.length;
         
-        boolean winsDiag=true;
-        boolean winsAntiDiag=true;
         for(int i=0;i<board.length;i++){
-            if(board[i][i]!=player){
-                winsDiag=false;
-            }   
-            if(board[i][board.length-1-i]!=player){
-                winsAntiDiag=false;
+            for(int j=0;j<board[0].length;j++){
+                if(i==row && board[i][j]==player){
+                    rowCount++;
+                }          
+                
+                if(i==j && board[i][j]==player){
+                    diagCount++;
+                }
+                if(i+j==size-1 && board[i][j]==player){
+                    antiDiagCount++;
+                }
             }
+            if(board[i][col]==player){
+                colCount++;
+            }
+            
         }
-        if(winsDiag || winsAntiDiag){
+        if(rowCount==size || colCount==size || diagCount==size || antiDiagCount==size){
             return player;
         }
         return 0;
