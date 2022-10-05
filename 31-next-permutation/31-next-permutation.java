@@ -8,10 +8,7 @@ class Solution {
             count.put(nums[i],count.getOrDefault(nums[i],0)+1);
             if(higherNum!=null){
                 nums[i]=higherNum;
-                count.put(higherNum,count.get(higherNum)-1);
-                List<Integer> remaining=new ArrayList<>();
-                
-                
+                count.put(higherNum,count.get(higherNum)-1);                
                 int j=i+1;
                 for(int n:count.keySet()){
                     int countNum=count.get(n);
@@ -20,7 +17,6 @@ class Solution {
                         nums[j++]=n;
                     }
                 }
-                // Collections.sort(remaining);
                 found=true;
                 break;
             }
