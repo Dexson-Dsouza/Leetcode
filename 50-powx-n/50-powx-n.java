@@ -1,42 +1,18 @@
 class Solution {
     public double myPow(double x, int n) {
-        if(x==0){
-            return 0;
+        long N = n;
+        if (N < 0) {
+            x = 1 / x;
+            N = -N;
         }
-        if(n==0){
-            return 1;
-        }
-        
-        if(x==1 ){
-            return 1;
-        }
-        if(x==-1){
-            return n%2==0?1:-1;
-        }
-        boolean isMin=false;
-        if(n<0){
-            x=1/x;
-            if(n==Integer.MIN_VALUE){
-                isMin=true;
-                n=Integer.MAX_VALUE;
-            }else{
-                n=Math.abs(n);
+        double ans = 1;
+        double current_product = x;
+        for (long i = N; i > 0; i /= 2) {
+            if ((i % 2) == 1) {
+                ans = ans * current_product;
             }
+            current_product = current_product * current_product;
         }
-        int curPow=1;
-        double result=x;
-        while(curPow <= n/2){
-            curPow*=2;
-            result=result*result;
-        }
-        
-        while(curPow != n){
-            result*=x;
-            curPow++;
-        }
-        if(isMin){
-            result*=x;
-        }
-        return result;
+        return ans;
     }
-}
+};
