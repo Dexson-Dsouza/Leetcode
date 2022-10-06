@@ -14,42 +14,27 @@
  * }
  */
 class Solution {
-    static class nodeBoundary{
-        TreeNode node;
-        Integer low;
-        Integer high;
-        nodeBoundary(TreeNode node, Integer low, Integer high){
-            this.low=low;
-            this.high=high;
-            this.node=node;
-        }
-    }
+    // DO INORDER
+    long minSoFar=Long.MIN_VALUE;
     public boolean isValidBST(TreeNode root) {
+        return validate(root);
+    }
+    
+    boolean validate(TreeNode root){
         if(root==null){
             return true;
         }
-        Stack<nodeBoundary> st=new Stack<>();
-        st.push(new nodeBoundary(root,null,null));
-        while(st.size()>0){
-            nodeBoundary currentObject = st.pop();
-            TreeNode currentNode=currentObject.node;
-            Integer low=currentObject.low;
-            Integer high=currentObject.high;
-            if(low!=null && currentNode.val<=low){
-                return false;
-            }
-            if(high!=null && currentNode.val>=high){
-                return false;
-            }
-            
-            if(currentNode.left!=null){
-                st.push(new nodeBoundary(currentNode.left,low,currentNode.val));
-            }
-            if(currentNode.right!=null){
-                st.push(new nodeBoundary(currentNode.right,currentNode.val,high));
-            }
+        if(validate(root.left)==false){
+            return false;
+        }
+        // System.out.println(root.val+" "+minSoFar);
+        if(root.val<=minSoFar){
+            return false;
+        }
+        minSoFar=root.val;
+        if(validate(root.right)==false){
+            return false;
         }
         return true;
     }
-    
 }
