@@ -14,6 +14,9 @@ class FindSumPairs {
     public void add(int index, int val) {
         int old=nums2[index];
         count.put(old,count.getOrDefault(old,0)-1);
+        if(count.get(old)==0){
+            count.remove(old);
+        }
         nums2[index]+=val;
         int newVal=nums2[index];
         count.put(newVal,count.getOrDefault(newVal,0)+1);
