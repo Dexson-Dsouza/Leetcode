@@ -1,22 +1,22 @@
 class Solution {
     public int triangleNumber(int[] nums) {
         Arrays.sort(nums);
-        int countTriplets=0;
-        int numsLength=nums.length;
-        for(int i=0;i<numsLength-1;i++){
+        int n=nums.length;
+        int count=0;
+        for(int i=0;i<n-2;i++){
             if(nums[i]==0){
                 continue;
             }
+            int j=i+1;
             int k=i+2;
-            for(int j=i+1;j<numsLength;j++){
-                
-                while(k<numsLength && nums[i]+nums[j]>nums[k]){
+            while(j<n){
+                while(k<n && nums[i]+nums[j]>nums[k]){
                     k++;
                 }
-                countTriplets+= (k-1-j);
+                count+=(k-j-1);
+                j++;
             }
-            
         }
-        return countTriplets;
+        return count;
     }
 }
