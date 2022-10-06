@@ -11,6 +11,7 @@ class Solution {
         wordSet.remove(beginWord);
         while(wordQueue.size()>0){
             int curSize=wordQueue.size();
+            Set<String> removedWords=new HashSet<>();
             while(curSize>0){
                 curSize--;
                 String curWord=wordQueue.poll();
@@ -23,11 +24,14 @@ class Solution {
                         curWordArr[i]=(char)('a'+j);
                         String nextWord=new String(curWordArr);
                         if(wordSet.contains(nextWord)){
-                            wordSet.remove(nextWord);
+                            removedWords.add(nextWord);
                             wordQueue.add(nextWord);
                         }
                     }
                 }
+            }
+            for(String word:removedWords){
+                wordSet.remove(word);
             }
             length++;
         }
