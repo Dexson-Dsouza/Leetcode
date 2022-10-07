@@ -10,8 +10,8 @@ class MyCalendarThree {
         int max=0;
         int ongoing=0;
         
-        for(int time:timeMap.keySet()){
-            ongoing += timeMap.get(time);
+        for(int time:timeMap.values()){
+            ongoing += time;
             max=Math.max(ongoing,max);
         }
         return max;
