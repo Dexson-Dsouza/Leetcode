@@ -16,19 +16,9 @@ class Solution {
             }
             left++;
         }
-        int right=len-1;
-        if(len%2==1){
-            mid++;
+        if(!replaced){
+        str[len-1]='b';
         }
-        while(right>=mid && replaced==false){
-            if(str[right]=='a'){
-                str[right]='b';
-                replaced=true;
-            }
-            right--;
-        }
-        
-        
         return new String(str);
     }
 }
