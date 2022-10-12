@@ -1,18 +1,12 @@
 class Solution {
-    public int findTheWinner(int n, int k) {
-        Queue<Integer> q=new LinkedList<>();
-        for(int i=1;i<=n;i++){
-            q.add(i);   
+    int helper(int n,int k){
+        int ans = 0;
+        for(int i=2; i<=n; i++){
+            ans = (ans + k) % i;
         }
-        
-        while(q.size()>1){
-            int count=k;
-            while(count>1){
-                q.add(q.poll());
-                count--;
-            }
-            q.poll();
-        }
-        return q.poll();
+        return ans;
     }
-}
+    int findTheWinner(int n, int k) {
+        return helper(n,k)+1;   //+1 is for conterting 0-based indexing to 1-based indexing
+    }
+};
