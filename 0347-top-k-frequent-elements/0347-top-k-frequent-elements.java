@@ -5,11 +5,11 @@ class Solution {
         for(int i: nums)
             count.put(i,count.getOrDefault(i,0)+1);
         
-        PriorityQueue<Map.Entry<Integer, Integer>> minheap = 
-                         new PriorityQueue<>((a,b)->(a.getValue()-b.getValue()));
+        PriorityQueue<int[]> minheap = 
+                         new PriorityQueue<>((a,b)->(a[1]-b[1]));
         
-        for(Map.Entry<Integer,Integer> entry: count.entrySet()){
-            minheap.add(entry);
+        for(int num:count.keySet()){
+            minheap.add(new int[]{num,count.get(num)});
             while(minheap.size()>k){
                 minheap.poll();
             }
@@ -18,8 +18,7 @@ class Solution {
         int[]res=new int[k];
         
         for(int i=0;i<k;i++){
-            Map.Entry<Integer,Integer> entry=minheap.poll();
-            res[i]=entry.getKey();
+            res[i]=minheap.poll()[0];
         }
         
         return res;
