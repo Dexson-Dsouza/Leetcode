@@ -2,7 +2,7 @@ class Solution {
     public String countAndSay(int n) {
         String num="1";
         while(n>1){
-            String nextNum="";
+            StringBuilder nextNum=new StringBuilder();
             int i=0;
             int len=num.length();
             while(i<len){
@@ -12,11 +12,11 @@ class Solution {
                     i++;
                     count++;
                 }
-                nextNum+=count;
-                nextNum+=curDigit;
+                nextNum.append(count);
+                nextNum.append(curDigit);
                 
             }
-            num=nextNum;
+            num=nextNum.toString();
             n--;
         }
         return num;
