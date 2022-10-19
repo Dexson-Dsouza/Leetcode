@@ -1,24 +1,39 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
     public List<Integer> postorderTraversal(TreeNode root) {
-        Deque<TreeNode> stack = new ArrayDeque<TreeNode>();
-        List<Integer> res = new ArrayList<Integer>();
-        while (!stack.isEmpty() || root != null) {
-            if (root != null) {
-                stack.push(root);
-                if (root.left != null) {
-                    root = root.left;
-                } else {
-                    root = root.right;
-                }
+        List<Integer> orderedList=new ArrayList<>();
+        if(root==null){
+            return orderedList;
+        }
+        Stack<TreeNode> nodes=new Stack<>();
+        nodes.add(root);
+        while(nodes.size()>0){
+            TreeNode topNode=nodes.peek();
+            if(topNode.left!=null){
+                nodes.add(topNode.left);
+                topNode.left=null;
+            }else if(topNode.right!=null){
+                nodes.add(topNode.right);
+                topNode.right=null;
             }else{
-                TreeNode node = stack.pop();
-                res.add(node.val);
-                if (!stack.isEmpty() && stack.peek().left == node) {
-                    root = stack.peek().right;
-                }
+                nodes.pop();
+                orderedList.add(topNode.val);
             }
         }
-        return res;
+        return orderedList;
     }
-    
 }
