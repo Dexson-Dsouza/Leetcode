@@ -22,18 +22,16 @@ class Solution {
         Stack<TreeNode> nodes=new Stack<>();
         nodes.add(root);
         while(nodes.size()>0){
-            TreeNode topNode=nodes.peek();
-            if(topNode.left!=null){
-                nodes.add(topNode.left);
-                topNode.left=null;
-            }else if(topNode.right!=null){
-                nodes.add(topNode.right);
-                topNode.right=null;
-            }else{
-                nodes.pop();
-                orderedList.add(topNode.val);
+            TreeNode cur=nodes.pop();
+            orderedList.add(cur.val);
+            if(cur.left!=null){
+                nodes.add(cur.left);
+            }
+            if(cur.right!=null){
+                nodes.add(cur.right);
             }
         }
+        Collections.reverse(orderedList);
         return orderedList;
     }
 }
