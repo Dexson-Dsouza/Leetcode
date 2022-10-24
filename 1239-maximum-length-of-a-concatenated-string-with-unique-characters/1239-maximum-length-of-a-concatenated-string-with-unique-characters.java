@@ -38,9 +38,11 @@ class Solution {
         }
         int maxLen=0;
         maxLen=Math.max(maxLen,findAllCombos(arr,mask,index+1,selectedBits));
-        selectedBits|=(1<<index);
-        maxLen=Math.max(maxLen,findAllCombos(arr,mask,index+1,selectedBits));
-        selectedBits^=(1<<index);
+        if(mask[index]!=0){
+            selectedBits|=(1<<index);
+            maxLen=Math.max(maxLen,findAllCombos(arr,mask,index+1,selectedBits));
+            selectedBits^=(1<<index);
+        }
         return maxLen;
     }
 }
