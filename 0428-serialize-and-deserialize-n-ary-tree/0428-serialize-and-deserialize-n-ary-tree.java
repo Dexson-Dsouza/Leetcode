@@ -50,9 +50,9 @@ class Codec {
     }
     
     public Node decode(Deque<String> d){
-        if(d.size()==0){
-            return null;
-        }
+        // if(d.size()==0){
+        //     return null;
+        // }
         String first=d.pollFirst();
         if(first.equals(NN)){
             return null;
