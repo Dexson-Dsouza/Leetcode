@@ -1,13 +1,15 @@
 class Solution {
     public long minimumHealth(int[] damage, int armor) {
-        Arrays.sort(damage);
-        
-        int maxDamage=damage[damage.length-1];
-        long healthRequired= armor>=maxDamage? 0 : maxDamage-armor;
-        
-        for(int i=damage.length-2;i>=0;i--){
-            healthRequired+=damage[i];
+        long damageSum= 0;
+        for(int d:damage){
+            damageSum+=d;
         }
+        long healthRequired = Long.MAX_VALUE;
+        for(int d:damage){
+            int damageTakeWithArmon = Math.max(0,d-armor);
+            healthRequired=Math.min(healthRequired, damageSum - d +damageTakeWithArmon);
+        }
+        
         return healthRequired+1;
     }
 }
