@@ -9,10 +9,9 @@ class Node {
 */
 
 class Solution {
-    Node newHead;
     Node cur;
     public Node flatten(Node head) {
-        newHead=new Node();
+        Node newHead=new Node();
         cur=newHead;
         flattenList(head);
         if(newHead.next!=null){
@@ -27,11 +26,12 @@ class Solution {
         }
         Node next=head.next;
         Node child=head.child;
-        cur.next=head;
-        head.prev=cur;
+        head.next=null;
+        head.child=null;
+        cur.next=new Node(head.val);
+        cur.next.prev=cur;
         cur=cur.next;
-        cur.next=null;
-        cur.child=null;
+        
         // System.out.print(cur.val+" ");
         flattenList(child);
         flattenList(next);
