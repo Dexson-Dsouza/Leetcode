@@ -1,17 +1,19 @@
 class Solution {
     public int minMeetingRooms(int[][] intervals) {
-        PriorityQueue<int[]> rooms=new PriorityQueue<>((a,b)->a[1]-b[1]);
+        TreeMap<Integer,Integer> meetingTimeMap=new TreeMap<>();
         int maxRooms=0;
-        Arrays.sort(intervals,(a,b)->a[0]-b[0]);
         
         for(int[] interval : intervals){
             int startTime = interval[0];
             int endTime = interval[1];
-            while(rooms.size()>0 && rooms.peek()[1]<=startTime){
-                rooms.poll();
-            }
-            rooms.add(new int[]{startTime,endTime});
-            maxRooms=Math.max(maxRooms, rooms.size());
+            meetingTimeMap.put(startTime,meetingTimeMap.getOrDefault(startTime,0)+1);
+            meetingTimeMap.put(endTime,meetingTimeMap.getOrDefault(endTime,0)-1);
+        }
+        int currentRooms=0;
+        for(Map.Entry<Integer,Integer> key : meetingTimeMap.entrySet()){
+            // System.out.println(key.getKey() + " "+ key.getValue());
+            currentRooms += key.getValue();
+            maxRooms=Math.max(currentRooms,maxRooms);
         }
         return maxRooms;
         
