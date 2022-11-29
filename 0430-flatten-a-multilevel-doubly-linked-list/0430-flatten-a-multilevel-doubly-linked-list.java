@@ -9,31 +9,28 @@ class Node {
 */
 
 class Solution {
-    Node cur;
     public Node flatten(Node head) {
-        Node newHead=new Node();
-        cur=newHead;
-        flattenList(head);
+        Node newHead = new Node();
+        Node cur = newHead;
+        Stack<Node> st=new Stack<>();
+        st.push(head);
+        while(st.size()!=0){
+            Node n = st.pop();
+            if(n==null){
+                continue;
+            }
+            st.push(n.next);
+            st.push(n.child);
+            cur.next=n;
+            n.prev=cur;
+            n.next=null;
+            n.child=null;
+            cur=n;
+        }
         if(newHead.next!=null){
             newHead.next.prev=null;
         }
         return newHead.next;
     }
     
-    void flattenList(Node head){
-        if(head==null){
-            return;
-        }
-        Node next=head.next;
-        Node child=head.child;
-        head.next=null;
-        head.child=null;
-        cur.next=new Node(head.val);
-        cur.next.prev=cur;
-        cur=cur.next;
-        
-        // System.out.print(cur.val+" ");
-        flattenList(child);
-        flattenList(next);
-    }
 }
