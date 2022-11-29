@@ -1,21 +1,33 @@
 class Solution {
     public List<String> wordBreak(String s, List<String> wordDict) {
-        return DFS(s, new HashSet<>( wordDict), new HashMap<String, ArrayList<String>>());
-    }       
-
-    List<String> DFS(String s, Set<String> wordDict, HashMap<String, ArrayList<String>>map) {
-        List<String>res = new ArrayList<String>();     
-        if (s.length() == 0) {
-            res.add("");
-            return res;
-        }               
-        for (String word : wordDict) {
-            if (s.startsWith(word)) {
-                List<String>sublist = DFS(s.substring(word.length()), wordDict, map);
-                for (String sub : sublist) 
-                    res.add(word + (sub.isEmpty() ? "" : " " + sub));               
+        Set<String> words=new HashSet<>(wordDict);
+        
+        List<String> perms=new ArrayList<>();
+        List<String> result=new ArrayList<>();
+        generatePermutaions(s,0,words,perms,result);
+        return result;
+    }
+    
+    public void generatePermutaions(String s, int index, Set<String> words, List<String> perms,
+                                    List<String> result){
+        // System.out.println(index+" "+perms);
+        if(index == s.length()){
+            StringBuilder sentence=new StringBuilder();
+            for(int i=0;i<perms.size()-1;i++){
+                sentence.append(perms.get(i)+" ");
             }
-        }       
-        return res;
+            sentence.append(perms.get(perms.size()-1));
+            // System.out.println(sentence.toString());
+            result.add(sentence.toString());
+            return;
+        }
+        
+        for(String word:words){
+            if(index+word.length()<=s.length() && s.substring(index,index+word.length()).equals(word)){
+                perms.add(word);
+                generatePermutaions(s,index+word.length(),words,perms,result);
+                perms.remove(perms.size()-1);
+            }
+        }
     }
 }
