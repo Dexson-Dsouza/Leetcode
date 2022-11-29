@@ -1,44 +1,34 @@
 class BrowserHistory {
-    
-    public static class Node{
-        String link;
-        Node next;
-        Node prev;
-        Node(){
-            prev=null;
-            next=null;
-            link="";
-        }
-    }    
-    
-    Node head;
+    List<String> historyList;
+    int index;
+    int size;
     public BrowserHistory(String homepage) {
-        head=new Node();
-        head.link=homepage;
+        historyList=new ArrayList<>();
+        index = 0;
+        size = 1;
+        historyList.add(homepage);
     }
     
     public void visit(String url) {
-        Node visitedNode=new Node();
-        visitedNode.link=url;
-        visitedNode.prev=head;
-        head.next=visitedNode;
-        head=visitedNode;
+        index++;
+        size = index+1;
+        if(index>=historyList.size()){
+            historyList.add(url);
+        }else{
+            historyList.set(index,url);
+        }
     }
     
     public String back(int steps) {
-        while(steps>0 && head.prev!=null){
-            head=head.prev;
-            steps--;
-        }
-        return head.link;
+        index = Math.max(0,index-steps);
+        // System.out.println(historyList+" "+index);
+        return historyList.get(index);
     }
     
     public String forward(int steps) {
-        while(steps>0 && head.next!=null){
-            head=head.next;
-            steps--;
-        }
-        return head.link;
+        index = Math.min(size-1,index+steps);
+        // System.out.println(historyList+" "+index);
+        return historyList.get(index);
     }
 }
 
