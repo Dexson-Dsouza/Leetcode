@@ -24,7 +24,7 @@ public class Solution {
         for (int i = 1; i <= word.length(); i++) {
             for (int j = i-1; j >=0 ; j--) {
                 if (dp[j] == true && dict.contains(word.substring(j, i))) {
-                    dict.add(word.substring(0, i));
+                    dict.contains(word.substring(j, i));
                     dp[i] = true;
                     break;
                 }
