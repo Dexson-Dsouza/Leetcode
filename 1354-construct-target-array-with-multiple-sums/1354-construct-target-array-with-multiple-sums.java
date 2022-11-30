@@ -19,7 +19,7 @@ class Solution {
             if(oldTop<=rem){
                 return false;
             }
-            Long newTop=oldTop-(rem*((int)(oldTop/rem)));
+            Long newTop=oldTop-(rem*(oldTop/rem));
             
             
             if(newTop==0){
