@@ -47,12 +47,9 @@ class Solution {
             }
             i++;
         }
-        int pow = nums[k][1];
-        int n = nums[k][0];
-        nums[k][0] = nums[right][0];
-        nums[k][1] = nums[right][1];
-        nums[right][0] = n; 
-        nums[right][1] = pow; 
+        int[] t = nums[k];
+        nums[k] = nums[right];
+        nums[right] = t;
         return k;
     }
     
