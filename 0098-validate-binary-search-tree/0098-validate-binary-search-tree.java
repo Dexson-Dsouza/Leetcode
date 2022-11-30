@@ -14,26 +14,17 @@
  * }
  */
 class Solution {
-    // DO INORDER
-    long minSoFar=Long.MIN_VALUE;
     public boolean isValidBST(TreeNode root) {
-        return validate(root);
+        return validateBST(root,Long.MAX_VALUE,Long.MIN_VALUE);
     }
     
-    boolean validate(TreeNode root){
+    boolean validateBST(TreeNode root, long maxLimit, long minLimit){
         if(root==null){
             return true;
         }
-        if(validate(root.left)==false){
+        if(root.val>=maxLimit || root.val<=minLimit){
             return false;
         }
-        if(root.val<=minSoFar){
-            return false;
-        }
-        minSoFar=root.val;
-        if(validate(root.right)==false){
-            return false;
-        }
-        return true;
+        return validateBST(root.left,root.val,minLimit) && validateBST(root.right,maxLimit,root.val);
     }
 }
