@@ -14,7 +14,7 @@ class Solution {
         ListNode prev = null;
         
         while(cur!=null){
-            if(cur.val < head.val || (prev!=null && cur.val < prev.val)){
+            if(prev!=null && cur.val < prev.val){
                 prev.next=cur.next;
                 ListNode temp = cur.next;
                 cur.next=head;
