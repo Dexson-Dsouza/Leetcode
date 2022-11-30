@@ -8,7 +8,7 @@ class Solution {
             }
             int j=i+1;
             int k=i+2;
-            while(j<nums.length){
+            while(j<nums.length-1){
                 while(k<nums.length && nums[k] < nums[i]+nums[j]){
                     k++;
                 }
