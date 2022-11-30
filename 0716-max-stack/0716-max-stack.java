@@ -34,6 +34,13 @@ class MaxStack {
         removeMaxPoppedElements();
         return heap.peek()[0];
     }
+
+    public int popMax() {
+        removeMaxPoppedElements();
+        int[] top = heap.poll();
+        removed.add(top[1]);
+        return top[0];
+    }
     
     void removeMaxPoppedElements(){
          while (removed.contains(heap.peek()[1])) {
@@ -45,12 +52,5 @@ class MaxStack {
          while (removed.contains(stack.peek()[1])) {
             stack.pop();
         }
-    }
-
-    public int popMax() {
-        removeMaxPoppedElements();
-        int[] top = heap.poll();
-        removed.add(top[1]);
-        return top[0];
     }
 }
