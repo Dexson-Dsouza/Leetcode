@@ -18,10 +18,10 @@ class NumMatrix {
     public void update(int row, int col, int val) {
         
         int diff = val - matrix[row][col];
+        matrix[row][col] = val;
         for(int i=row+1;i<=rows;i++){
             colSum[i][col] = colSum[i][col] + diff;
         }
-        matrix[row][col]=val;
     }
     
     public int sumRegion(int row1, int col1, int row2, int col2) {
