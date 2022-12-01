@@ -1,26 +1,21 @@
 class Solution {
     public int minDays(int n) {
-        Map<Integer,Integer> dayRequired=new HashMap<>();
-        
-        return findDays(n,dayRequired);
+        Map<Integer,Integer> minimumDaysToEat=new HashMap<>();
+        return findMinimumDaysToEat(n,minimumDaysToEat);
     }
     
-    public int findDays(int n, Map<Integer,Integer> dayRequired){
-        if(n==1){
-            return 1;
+    public int findMinimumDaysToEat(int n, Map<Integer,Integer> minimumDaysToEat){
+        if(n==0 || n == 1){
+            return n;
         }
-        if(n<=0){
-            return 0;
+        if(minimumDaysToEat.containsKey(n)){
+            return minimumDaysToEat.get(n);
         }
         
-        if(dayRequired.containsKey(n)){
-            return dayRequired.get(n);
-        }
-        int required=n;
-        required=Math.min(required,n%2 + findDays(n/2,dayRequired)+1);
-        required=Math.min(required,n%3 + findDays(n/3,dayRequired)+1);
-        dayRequired.put(n,required);
-        // System.out.println(n+" "+required);
-        return required;
+        int steps= Math.min(n%3 + 1 + findMinimumDaysToEat(n/3,minimumDaysToEat),
+                            n%2 + 1 + findMinimumDaysToEat(n/2,minimumDaysToEat));
+        // System.out.println(n+" "+steps);
+        minimumDaysToEat.put(n,steps);
+        return steps;
     }
 }
