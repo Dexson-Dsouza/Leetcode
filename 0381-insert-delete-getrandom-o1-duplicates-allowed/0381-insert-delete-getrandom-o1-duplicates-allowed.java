@@ -1,55 +1,48 @@
 class RandomizedCollection {
-    Map<Integer,Set<Integer>> indexes;
+    Map<Integer,Set<Integer>> elementIndexes;
     List<Integer> nums;
     public RandomizedCollection() {
-        nums=new ArrayList();
-        indexes=new HashMap<>();
+        nums = new ArrayList<>();
+        elementIndexes = new HashMap<>();
     }
     
     public boolean insert(int val) {
-        boolean isNewNumber=false;
-        
-        if(indexes.containsKey(val)==false){
-            isNewNumber=true;
-            indexes.put(val,new HashSet<>());
+        boolean exists=false;
+        if(elementIndexes.containsKey(val)==false){
+            exists=true;
+            elementIndexes.put(val,new HashSet<>());
         }
-        
-        indexes.get(val).add(nums.size());
+        elementIndexes.get(val).add(nums.size());
         nums.add(val);
-        return isNewNumber;
+        return exists;
     }
     
     public boolean remove(int val) {
-        if(indexes.containsKey(val)==false){
+        if(elementIndexes.containsKey(val)==false){
             return false;
         }
-        if(nums.get(nums.size()-1)==val){
-            indexes.get(val).remove(nums.size()-1);
-            nums.remove(nums.size()-1);
-        }else{
-            int lastVal = nums.get(nums.size()-1);
-            int curIndex = indexes.get(val).iterator().next();
-            indexes.get(val).remove(curIndex);
-            
-           
-            
-            indexes.get(lastVal).remove(nums.size()-1);
-            indexes.get(lastVal).add(curIndex);
-            nums.set(curIndex,lastVal);
-            nums.remove(nums.size()-1);
+        int index = elementIndexes.get(val).iterator().next();
+        elementIndexes.get(val).remove(index);
+        if(elementIndexes.get(val).size()==0){
+            elementIndexes.remove(val);
         }
         
-        if(indexes.get(val).size()==0){
-            indexes.remove(val);
+        int lastIndex = nums.size()-1;
+        if(index!=lastIndex){
+            int lastNum = nums.get(lastIndex);
+            elementIndexes.get(lastNum).remove(lastIndex);
+            elementIndexes.get(lastNum).add(index);
+            
+            nums.set(index,lastNum);
         }
-        // System.out.println(indexes+" "+val);
-        // System.out.println(nums);
+        
+        nums.remove(nums.size()-1);
         return true;
     }
     
     public int getRandom() {
-        int randomIndex= (int)(Math.random()*nums.size());
-        return nums.get(randomIndex);
+        int index = (int)(Math.random()*nums.size());
+        return nums.get(index);
     }
 }
 
