@@ -15,12 +15,11 @@ class Solution {
         return nodesInSubTree;
     }
     
-    int[] findNodesInSubtree(int cur, List<List<Integer>> adj, String labels, int[] nodesInSubTree, Set<Integer> visited){
-        visited.add(cur);
-        int[] count=new int[26];
+    public Map<Character,Integer> findNodesInSubtree(
+        int cur, List<List<Integer>> adj, String labels, int[] nodesInSubTree, Set<Integer> visited){
         
-        int labelIndex = labels.charAt(cur)-'a';
-        count[labelIndex]++;
+        Map<Character,Integer> labelCountMap=new HashMap<>();
+        visited.add(cur);
         
         for(int neighbour:adj.get(cur)){
             
@@ -28,13 +27,18 @@ class Solution {
                 continue;
             }
             
-            int[] neighbourCount=findNodesInSubtree(neighbour,adj,labels,nodesInSubTree,visited);
-            for(int i=0;i<26;i++){
-                count[i] += neighbourCount[i];
+            Map<Character,Integer> childrenLabelCount = findNodesInSubtree(neighbour,adj,labels,
+                                                                           nodesInSubTree,visited);
+            for(Character label : childrenLabelCount.keySet()){
+                int curCount = labelCountMap.getOrDefault(label,0);
+                labelCountMap.put(label, curCount + childrenLabelCount.get(label));
             }
         }
         visited.remove(cur);
-        nodesInSubTree[cur]=count[labelIndex];
-        return count;
+        char label = labels.charAt(cur);
+        int labelCount = labelCountMap.getOrDefault(label,0) + 1;
+        labelCountMap.put(label, labelCount);
+        nodesInSubTree[cur]=labelCount;
+        return labelCountMap;
     }
 }
