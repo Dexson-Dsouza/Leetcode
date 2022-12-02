@@ -59,7 +59,7 @@ class Codec {
         }
         Node n=new Node(Integer.parseInt(first));
         Integer size=Integer.parseInt(d.poll());
-        n.children=new ArrayList<>(size);
+        n.children=new ArrayList<>();
         
         for(int i=0;i<size;i++){
             n.children.add(decode(d));
