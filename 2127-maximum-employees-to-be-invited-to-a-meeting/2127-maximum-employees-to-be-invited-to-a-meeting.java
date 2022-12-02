@@ -26,10 +26,11 @@ class Solution {
         boolean[] visited1 = new boolean[n];
         for(int i = 0; i < n; ++i) {
             int j = favorite[i];
-            if(i == favorite[j]){
+            if(i == favorite[j] && visited1[i]==false){
                 int length1 = dfs(i,visited1,graph);
+                int length2 = dfs(j,visited1,graph);
                 // System.out.println(i+" "+ length1+" "+j+" "+length2);
-                result1 += length1;
+                result1 += length1 + length2;
             }
         }
     
