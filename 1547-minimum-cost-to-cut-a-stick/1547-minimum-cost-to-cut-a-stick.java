@@ -16,11 +16,11 @@ class Solution {
             return len;
         }
         
-        if(minCostMap.containsKey(len) && minCostMap.get(len).containsKey(lIndex)){
-            return minCostMap.get(len).get(lIndex);
+        if(minCostMap.containsKey(lIndex) && minCostMap.get(lIndex).containsKey(rIndex)){
+            return minCostMap.get(lIndex).get(rIndex);
         }
-        if(minCostMap.containsKey(len)==false){
-            minCostMap.put(len,new HashMap<>());
+        if(minCostMap.containsKey(lIndex)==false){
+            minCostMap.put(lIndex,new HashMap<>());
         }
         
         int minCostToCut = Integer.MAX_VALUE;
@@ -35,7 +35,7 @@ class Solution {
                                     findMinCost(cuts[index],endPoint,cuts,index+1,rIndex,minCostMap));
         }
         
-        minCostMap.get(len).put(lIndex,minCostToCut);
+        minCostMap.get(lIndex).put(rIndex,minCostToCut);
         return minCostToCut;
     }
 }
