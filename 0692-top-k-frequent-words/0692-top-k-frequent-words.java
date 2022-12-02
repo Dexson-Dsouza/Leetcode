@@ -22,11 +22,21 @@ class Solution {
             }
         }
         List<String> kMostFreqWords=new ArrayList<>();
-        arr.sort((a,b)->(a.count==b.count?a.word.compareTo(b.word):b.count-a.count));
         
-        for(int wordIndex=0;wordIndex<k;wordIndex++){
-            kMostFreqWords.add(arr.get(wordIndex).word);
+        PriorityQueue<wordCountPair> pq=new PriorityQueue<>(
+            (a,b)-> a.count==b.count? b.word.compareTo(a.word):a.count-b.count);
+        
+        for(wordCountPair wp : arr){
+            pq.add(wp);
+            if(pq.size()>k){
+                pq.poll();
+            }
         }
+        
+        for(int i=0;i<k;i++){
+            kMostFreqWords.add(pq.poll().word);
+        }
+        Collections.reverse(kMostFreqWords);
         return kMostFreqWords;
     }
 }
