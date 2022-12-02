@@ -1,31 +1,26 @@
 class Solution {
     public boolean isPossible(int[] nums) {
-        Map<Integer,Integer> count=new HashMap<>();
-        for(int n:nums){
-            count.put(n,count.getOrDefault(n,0)+1);
-        }
-        
-        Map<Integer,Integer> exisitingSeqs=new HashMap<>();
+        Map<Integer,PriorityQueue<Integer>> sequenceLengthMap=new HashMap<>();
         
         for(int n:nums){
-            if(count.get(n)==0){
-                continue;
+            // System.out.println(n + " " + sequenceLengthMap.keySet());
+            int nextLen = 1;
+            if(sequenceLengthMap.containsKey(n) ){
+                int prevLen = sequenceLengthMap.get(n).poll();
+                if(sequenceLengthMap.get(n).size()==0){
+                    sequenceLengthMap.remove(n);
+                }
+                nextLen = prevLen + 1;
             }
-            if(exisitingSeqs.getOrDefault(n-1,0)>0){
-                exisitingSeqs.put(n-1,exisitingSeqs.get(n-1)-1);
-                exisitingSeqs.put(n,exisitingSeqs.getOrDefault(n,0)+1);
-            }else if(count.getOrDefault(n+1,0)>0 && count.getOrDefault(n+2,0)>0){
-                count.put(n+1,count.get(n+1)-1);
-                count.put(n+2,count.get(n+2)-1);
-                exisitingSeqs.put(n+2,exisitingSeqs.getOrDefault(n+2,0)+1);
-            }else{
-                return false;
+            int nextNum = n+1;
+            if(sequenceLengthMap.containsKey(nextNum)==false){
+                sequenceLengthMap.put(nextNum,new PriorityQueue<>());
             }
-            count.put(n,count.get(n)-1);
+            sequenceLengthMap.get(nextNum).add(nextLen);
         }
         
-        for(int n:count.keySet()){
-            if(count.get(n)!=0){
+        for(int key : sequenceLengthMap.keySet()){
+            if(sequenceLengthMap.get(key).peek()<3){
                 return false;
             }
         }
