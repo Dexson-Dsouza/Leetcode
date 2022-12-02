@@ -45,20 +45,20 @@ class Codec {
 	
     // Decodes your encoded data to tree.
     public Node deserialize(String data) {
-        Deque<String> d=new LinkedList<>(Arrays.asList(data.split(splitter)));
+        Queue<String> d=new LinkedList<>(Arrays.asList(data.split(splitter)));
         return decode(d);
     }
     
-    public Node decode(Deque<String> d){
+    public Node decode(Queue<String> d){
         // if(d.size()==0){
         //     return null;
         // }
-        String first=d.pollFirst();
+        String first=d.poll();
         if(first.equals(NN)){
             return null;
         }
         Node n=new Node(Integer.parseInt(first));
-        Integer size=Integer.parseInt(d.pollFirst());
+        Integer size=Integer.parseInt(d.poll());
         n.children=new ArrayList<>(size);
         
         for(int i=0;i<size;i++){
