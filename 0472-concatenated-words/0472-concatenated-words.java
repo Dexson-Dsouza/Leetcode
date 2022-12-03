@@ -9,6 +9,7 @@ public class Solution {
         });
         
         for (int i = 0; i < words.length; i++) {
+            preWords.remove(words[i]);
             if (canForm(words[i], preWords)) {
                 result.add(words[i]);
             }
