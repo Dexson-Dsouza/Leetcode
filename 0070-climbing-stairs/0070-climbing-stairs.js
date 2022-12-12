@@ -3,11 +3,9 @@
  * @return {number}
  */
 var climbStairs = function(n) {
-    const steps = [];
-    steps[0]=1;
-    steps[1]=2;
-    for(let i=2;i<n;i++){
+    let steps = [0,1,2];
+    for(let i=3;i<=n;i++){
         steps[i] = steps[i-1]+steps[i-2];
     }
-    return steps[n-1];
+    return steps[n];
 };
