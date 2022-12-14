@@ -11,6 +11,5 @@ var rob = function(nums) {
         
         profitMap.set(i,Math.max(curProfit,prevProfit));
     }
-    // console.log(profitMap);
     return profitMap.get(houseCount-1);
 };
