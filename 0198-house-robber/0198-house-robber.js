@@ -4,14 +4,13 @@
  */
 var rob = function(nums) {
     let houseCount = nums.length;
-    let profitArray = new Array(houseCount).fill(0);
+    const profitMap = new Map();
     for(let i = 0; i<houseCount ;i++){
-        let prevProfit = i>0? profitArray[i-1]:0;
-        let curProfit = nums[i];
-        if(i-2 >= 0){
-            curProfit += profitArray[i-2];
-        }
-        profitArray[i] = Math.max(prevProfit,curProfit);
+        let prevProfit = profitMap.get(i-1)?profitMap.get(i-1):0;
+        let curProfit = nums[i]+(profitMap.get(i-2)?profitMap.get(i-2):0);
+        
+        profitMap.set(i,Math.max(curProfit,prevProfit));
     }
-    return profitArray[houseCount-1];
+    // console.log(profitMap);
+    return profitMap.get(houseCount-1);
 };
