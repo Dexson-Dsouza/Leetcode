@@ -24,10 +24,10 @@ class DisjointSetUnion{
             if(a != b){
                 if(rank[a] > rank[b]){
                     parent[b] = a;
-                    rank[a] += rank[b];
+                    rank[a] ++;
                 }else{
                     parent[a] = b;
-                    rank[b] += rank[a];
+                    rank[b] ++;
                 }
             }
         }
