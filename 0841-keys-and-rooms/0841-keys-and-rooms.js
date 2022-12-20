@@ -4,17 +4,17 @@
  */
 var canVisitAllRooms = function(rooms) {
     let totalRooms = rooms.length;
-    let visitedRooms = new Set();
+    let visitedRooms = new Map();
     let queue = [];
     queue.push(0);
-    visitedRooms.add(0);
+    visitedRooms.set(0,true);
     while(queue.length>0){
         let cur = queue.pop();
         for(let nextRoom of rooms[cur]){
             if(visitedRooms.has(nextRoom)){
                 continue;
             }else{
-                visitedRooms.add(nextRoom);
+                visitedRooms.set(nextRoom,true);
                 queue.push(nextRoom);
             }
         }
