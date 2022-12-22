@@ -5,6 +5,7 @@ class Solution {
             tree = new ArrayList<HashSet<Integer>>();
             res = new int[N];
             count = new int[N];
+            Arrays.fill(count,1);
             for (int i = 0; i < N ; ++i)
                 tree.add(new HashSet<Integer>());
             for (int[] e : edges) {
@@ -23,7 +24,6 @@ class Solution {
                 count[root] += count[i];
                 res[root] += res[i] + count[i];
             }
-            count[root]++;
         }
 
 
