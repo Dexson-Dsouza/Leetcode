@@ -1,32 +1,33 @@
 class MyQueue {
-Stack<Integer> queue = new Stack<Integer>();
-// Push element x to the back of queue.
-public void push(int x) {
-    Stack<Integer> temp = new Stack<Integer>();
-    while(!queue.empty()){
-        temp.push(queue.pop());
+    Stack<Integer> stack;
+    public MyQueue() {
+        stack=new Stack<>();
     }
-    queue.push(x);
-    while(!temp.empty()){
-        queue.push(temp.pop());
+    
+    public void push(int x) {
+        Stack<Integer> temp = new Stack<>();
+        while(!stack.isEmpty()){
+            temp.push(stack.pop());
+        }
+        stack.push(x);
+        while(!temp.isEmpty()){
+            stack.push(temp.pop());
+        }
+    }
+    
+    public int pop() {
+        return stack.pop();
+    }
+    
+    public int peek() {
+        return stack.peek();
+    }
+    
+    public boolean empty() {
+        return stack.isEmpty();
     }
 }
 
-// Removes the element from in front of queue.
-public int pop() {
-    return queue.pop();
-}
-
-// Get the front element.
-public int peek() {
-    return queue.peek();
-}
-
-// Return whether the queue is empty.
-public boolean empty() {
-    return queue.empty();
-}
-}
 /**
  * Your MyQueue object will be instantiated and called as such:
  * MyQueue obj = new MyQueue();
