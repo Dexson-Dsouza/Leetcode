@@ -1,24 +1,22 @@
 class Solution {
     public String breakPalindrome(String palindrome) {
-        int len=palindrome.length();
+        char[] strArr = palindrome.toCharArray();
+        
+        int index = 0;
+        int len = strArr.length;
         if(len==1){
             return "";
         }
         
-        char[] str=palindrome.toCharArray();
-        boolean replaced=false;
-        int left=0;
-        int mid=len/2;
-        while(left<mid && replaced==false){
-            if(str[left]!='a'){
-                str[left]='a';
-                replaced=true;
-            }
-            left++;
+        int mid = len/2;
+        while(index<mid && strArr[index]=='a'){
+            index++;
         }
-        if(!replaced){
-        str[len-1]='b';
+        if(index==mid){
+            strArr[len-1]='b';
+        }else{
+            strArr[index]='a';
         }
-        return new String(str);
+        return new String(strArr);
     }
 }
