@@ -2,34 +2,19 @@ class Solution {
     public int countSubstrings(String s) {
         char[] strArr= s.toCharArray();
         int len = s.length();
-        Boolean[][] isPal = new Boolean[len][len];
-        
+        int[] count = new int[1];
         for(int i=0;i<len;i++){
-            isPal[i][i]=true;
+            findPalCount(strArr,i,i,count);
+            findPalCount(strArr,i,i+1,count);
         }
-        for(int i=0;i<len-1;i++){
-            isPal[i][i+1]= strArr[i]==strArr[i+1]?true:false;
+        return count[0];
+    }
+    
+    void findPalCount(char[] strArr, int i, int j, int[] count){
+        while(i>=0 && j<strArr.length && strArr[i]==strArr[j]){
+            count[0]++;
+            i--;
+            j++;
         }
-        
-        for(int l=2;l<len;l++){
-            for(int i=0;i+l<len;i++){
-                int j = i+l;
-                if(strArr[i] == strArr[j] && isPal[i+1][j-1]){
-                    isPal[i][j] = true;
-                }else{
-                    isPal[i][j] = false;
-                }
-            }
-        }
-        
-        int count = 0;
-        for(int i=0;i<len;i++){
-            for(int j=i;j<len;j++){
-                if(isPal[i][j]){
-                    count++;
-                }
-            }
-        }
-        return count;
     }
 }
