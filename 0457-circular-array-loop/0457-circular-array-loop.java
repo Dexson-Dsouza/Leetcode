@@ -11,7 +11,9 @@ class Solution {
         if(color[start] == 2) return false;
         color[start] = 1;
         int next = start + nums[start];
-        next = next % nums.length + nums.length;
+        if(next<0){
+            next += ((-next/nums.length) + 1)*nums.length;
+        }
         next %= nums.length;
         if(next == start || nums[next] * nums[start] < 0) {
             color[start] = 2;
