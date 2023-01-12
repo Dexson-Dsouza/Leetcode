@@ -1,22 +1,18 @@
 class Solution {
     public int findPairs(int[] nums, int k) {
-        Set<Integer> numSet=new HashSet<>();
-        Set<String> doneSet=new HashSet<>();
+        Map<Integer,Integer> numMap=new HashMap<>();
         int pairCount = 0;
         for(int n:nums){
+            numMap.put(n,numMap.getOrDefault(n,0)+1);
+        }
+        
+        for(int n:numMap.keySet()){
             int prevPair = n - k;
-            String key1 = prevPair + "*"+n;
-            if(doneSet.contains(key1)==false && numSet.contains(prevPair)){
+            if(k>0 && numMap.containsKey(prevPair)){
                 pairCount++;
-                doneSet.add(key1);
-            }
-            int nextPair = n + k;
-            String key2= n+"*"+nextPair;
-            if(doneSet.contains(key2)==false && numSet.contains(nextPair)){
+            }else if(k==0 && numMap.get(n)>1){
                 pairCount++;
-                doneSet.add(key2);
             }
-            numSet.add(n);
         }
         return pairCount;
     }
