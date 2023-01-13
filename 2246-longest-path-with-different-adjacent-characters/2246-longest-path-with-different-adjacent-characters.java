@@ -38,7 +38,10 @@ class Solution {
         Map<Integer, List<Integer>> children = new HashMap<>();
         // Start from node 1, since root node 0 does not have a parent.
         for (int i = 1; i < n; i++) {
-            children.computeIfAbsent(parent[i], value -> new ArrayList<Integer>()).add(i);
+            if(children.containsKey(parent[i])==false){
+                children.put(parent[i], new ArrayList<Integer>());
+            }
+            children.get(parent[i]).add(i);
         }
 
         dfs(0, children, s);
