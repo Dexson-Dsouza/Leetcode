@@ -1,36 +1,30 @@
 class Solution {
     public int[][] insert(int[][] intervals, int[] newInterval) {
-        List<int[]> newIntervals=new ArrayList<>();
-        
-        int newIntervalStart=newInterval[0];
-        int newIntevalEnd=newInterval[1];
-        
-        for(int[] interval:intervals){
-            // System.out.println(newIntervalStart+" "+newIntevalEnd);
-            if(newIntervalStart<=interval[1] && newIntevalEnd>=interval[0]){
-                newIntevalEnd=Math.max(newIntevalEnd,interval[1]);
-                newIntervalStart=Math.min(newIntervalStart,interval[0]);
-            }else if(newIntervalStart<interval[0]){
-                newIntervals.add(new int[]{newIntervalStart,newIntevalEnd});
-                newIntervalStart=interval[0];
-                newIntevalEnd=interval[1];
-            }else {
-                
-                newIntervals.add(interval);
-            }
-        }
-        
-        if(newIntervals.size()==0 || newIntervals.get(newIntervals.size()-1)[1]<newIntervalStart){
-            newIntervals.add(new int[]{newIntervalStart,newIntevalEnd});
-        }
-        
-        int size=newIntervals.size();
-        int[][] resultIntervals=new int[size][2];
-        
-        for(int i=0;i<size;i++){
-            resultIntervals[i][0]=newIntervals.get(i)[0];
-            resultIntervals[i][1]=newIntervals.get(i)[1];
-        }
-        return resultIntervals;
+		List<int[]> result = new LinkedList<>();
+	    int i = 0;
+	    // add all the intervals ending before newInterval starts
+	    while (i < intervals.length && intervals[i][1] < newInterval[0]){
+	        result.add(intervals[i]);
+	        i++;
+	    }
+	    
+	    // merge all overlapping intervals to one considering newInterval
+	    while (i < intervals.length && intervals[i][0] <= newInterval[1]) {
+	    	// we could mutate newInterval here also
+	        newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
+	        newInterval[1] = Math.max(newInterval[1], intervals[i][1]);
+	        i++;
+	    }
+	    
+	    // add the union of intervals we got
+	    result.add(newInterval); 
+	    
+	    // add all the rest
+	    while (i < intervals.length){
+	    	result.add(intervals[i]); 
+	    	i++;
+	    }
+	    
+	    return result.toArray(new int[result.size()][]);
     }
 }
