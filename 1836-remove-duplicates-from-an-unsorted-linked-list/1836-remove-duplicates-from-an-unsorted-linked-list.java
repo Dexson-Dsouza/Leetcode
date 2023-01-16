@@ -10,36 +10,32 @@
  */
 class Solution {
     public ListNode deleteDuplicatesUnsorted(ListNode head) {
-        Set<Integer> numSet = new HashSet<>();
-        Set<Integer> duplicateSet = new HashSet<>();
-        
-        ListNode ptr1 = head;
-        
-        ListNode head2 = new ListNode(-1);
-        ListNode ptr2 = head2;
-        
-        while(ptr1!=null){
-            if(numSet.contains(ptr1.val)==false){
-                numSet.add(ptr1.val);
-                ptr1=ptr1.next;
+        ListNode newHead = new ListNode(0);
+        ListNode cur = newHead;
+        Set<Integer> nums = new HashSet<>();
+        Set<Integer> duplicates =new HashSet<>();
+        ListNode temp = head;
+        while(head!=null){
+            if(nums.contains(head.val)==false){
+                nums.add(head.val);
+                head=head.next;
             }else{
-                duplicateSet.add(ptr1.val);
-                ptr1 = ptr1.next;
+                duplicates.add(head.val);
+                head = head.next;
             }
         }
         
-        ptr1 = head;
-        while(ptr1!=null){
-            if(duplicateSet.contains(ptr1.val)==false){
-                ptr2.next = ptr1;
-                ptr1=ptr1.next;
-                ptr2 = ptr2.next;
-                ptr2.next=null;
+        while(temp!=null){
+            if(duplicates.contains(temp.val)==false){
+                cur.next =  temp;
+                cur = temp;
+                temp = temp.next;
+                cur.next = null;
             }else{
-                ptr1=ptr1.next;
+                temp = temp.next;
             }
         }
         
-        return head2.next;
+        return newHead.next;
     }
 }
