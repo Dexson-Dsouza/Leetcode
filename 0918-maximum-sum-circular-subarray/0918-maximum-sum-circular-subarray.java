@@ -24,6 +24,6 @@ class Solution {
             totalSum+=n;
         }
         // System.out.println(totalSum +" "+largestSum+" "+smallestSum);
-        return Math.max(smallestSum<totalSum?totalSum-smallestSum:totalSum,largestSum);
+        return Math.max(smallestSum<totalSum?totalSum-smallestSum:smallestSum,largestSum);
     }
 }
