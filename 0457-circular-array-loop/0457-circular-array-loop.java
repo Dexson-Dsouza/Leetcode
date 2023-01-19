@@ -1,30 +1,45 @@
 class Solution {
     public boolean circularArrayLoop(int[] nums) {
-        int[] color = new int[nums.length];
-        for(int i = 0 ; i < nums.length ; i++) {
-            if(color[i] == 0 && DFS(nums, color, i)) return true;
+        int len = nums.length;
+        int[] visited = new int[len];
+        
+        for(int i = 0; i < len; i++){
+            if(visited[i]==0 && traverse(nums,visited,i,i)==true){
+                return true;
+            }
         }
         return false;
     }
-    private boolean DFS(int[] nums, int[] color, int start) {
-        //return true if find cycle
-        if(color[start] == 2) return false;
-        color[start] = 1;
-        int next = start + nums[start];
-        if(next<0){
-            next += ((-next/nums.length) + 1)*nums.length;
-        }
-        next %= nums.length;
-        if(next == start || nums[next] * nums[start] < 0) {
-            color[start] = 2;
+    
+    boolean traverse(int[] nums, int[] visited, int cur, int par){
+        if(visited[cur]==2){
             return false;
         }
-        if(color[next] == 1) {
-            color[start] = 2;
+        
+        if(visited[cur]==1){
             return true;
         }
-        if(DFS(nums, color, next)) return true;
-        color[start] = 2;
+        
+        visited[cur] = 1;
+        
+        int next = (cur + nums[cur])%nums.length;
+        if(next<0){
+            next += nums.length;
+        }
+        if(next == cur){
+            visited[cur]=2;
+            return false;
+        }
+        
+        if(nums[next]*nums[par]<0){
+            visited[cur] = 2;
+            return false;
+        }
+        
+        if(traverse(nums,visited,next,par)==true){
+            return true;
+        }
+        visited[cur]=2;
         return false;
     }
 }
