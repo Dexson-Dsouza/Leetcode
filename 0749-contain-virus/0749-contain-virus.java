@@ -63,7 +63,7 @@ class Solution {
         // Build wall around region which can infect most neighbors.
         Region regionThatCauseMostInfection = regions.remove(0);
         result += regionThatCauseMostInfection.wallsRequired;
-        // System.out.println(result);
+        System.out.println(result);
         for (int neighbor : regionThatCauseMostInfection.infected) {
             int row = neighbor / cols;
             int col = neighbor % cols;
