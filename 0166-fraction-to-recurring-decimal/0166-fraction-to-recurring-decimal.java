@@ -18,10 +18,6 @@ class Solution {
             res.append('.');
         }
         while(numerator!=0){
-            numerator*=10;
-            digit = numerator/denominator;
-            res.append(digit);
-            numerator = numerator % denominator;
             if(digitIndex.containsKey(numerator)){
                 int startIndex = digitIndex.get(numerator);
                 res.insert(startIndex,'(');
@@ -30,6 +26,11 @@ class Solution {
             }else{
                 digitIndex.put(numerator,res.length());
             }
+            numerator*=10;
+            digit = numerator/denominator;
+            res.append(digit);
+            numerator = numerator % denominator;
+            
         }
         if(positive==false){
             res.insert(0,'-');
