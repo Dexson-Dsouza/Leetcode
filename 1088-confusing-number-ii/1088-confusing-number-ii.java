@@ -1,34 +1,45 @@
 class Solution {
-    Map<Integer, Integer> map = new HashMap<>();
-    
-    public int confusingNumberII(int N) {
-        map.put(0, 0);
-        map.put(1, 1);
-        map.put(6, 9);
-        map.put(8, 8);
-        map.put(9, 6);
-        
-        int[] res = new int[1];
-        helper(N, 0,res);
-        return res[0];
-    }
-    private void helper(int N, long cur ,int[] res) {
-        if (isConfusingNumber(cur)) {
-            res[0]++;
+    public int confusingNumberII(int n) {
+        int[] validDigits = new int[]{1,6,8,9,0};
+        int count = 0;
+        for(int i=0;i<4;i++){
+            count += getconfusingNumber(validDigits[i],n,validDigits);
         }
-        for (Integer i : map.keySet()) {
-            if (cur * 10 + i <= N && cur * 10 + i > 0) {
-                helper(N, cur * 10 + i,res);
+        return count;
+    }
+    
+    public int getconfusingNumber(int cur, int limit, int[] validDigits){
+        int countOfConfusingNums = 0;
+        if(check(cur)){
+            // System.out.println(cur);
+            countOfConfusingNums++;
+        }
+        
+        for(int d:validDigits){
+            if(cur<= (limit-d)/10){
+                countOfConfusingNums+= getconfusingNumber(cur*10 + d, limit,validDigits);
             }
         }
+        return countOfConfusingNums;
     }
-    private boolean isConfusingNumber(long n) {
-        long src = n;
-        long res = 0;
-        while (n > 0) {
-            res = res * 10 + map.get((int) n % 10); 
-            n /= 10;
+    
+    public boolean check(int num){
+        int original = num;
+        int reversedNum = 0;
+        while(num!=0){
+            int digit = num%10;
+            num/=10;
+            int reversedDigit;
+            if(digit==6){
+                reversedDigit = 9;
+            }else if(digit==9){
+                reversedDigit = 6;
+            }else{
+                reversedDigit = digit;
+            }
+            reversedNum = reversedNum * 10 +reversedDigit;
         }
-        return res != src;
+        // System.out.println(original+" "+reversedNum);
+        return reversedNum != original;
     }
 }
