@@ -1,30 +1,33 @@
-public class Solution {
-    public static List<String> findAllConcatenatedWordsInADict(String[] words) {
-        List<String> result = new ArrayList<>();
-        Set<String> preWords = new HashSet<>(Arrays.asList(words));
-        
-        for (int i = 0; i < words.length; i++) {
-            preWords.remove(words[i]);
-            if (canForm(words[i], preWords)) {
-                result.add(words[i]);
-            }
-            preWords.add(words[i]);
+class Solution {
+    public List<String> findAllConcatenatedWordsInADict(String[] words) {
+        Set<String> wordSet = new HashSet<>();
+        int maxLen = 0;
+        for(String w:words){
+            maxLen = Math.max(maxLen,w.length());
         }
+        Arrays.sort(words,(a,b)->a.length() - b.length());
         
-        return result;
+        Set<String> foundWords = new HashSet<>();
+        
+        for(String word:words){
+            if(found(0,word,wordSet)){
+                foundWords.add(word);
+            }    
+            wordSet.add(word);
+        }
+        return new ArrayList<>(foundWords);
     }
-	
-    private static boolean canForm(String word, Set<String> dict) {
-        boolean[] dp = new boolean[word.length() + 1];
-        dp[0] = true;
-        for (int i = 1; i <= word.length(); i++) {
-            for (int j = i-1; j >=0 ; j--) {
-                if (dp[j] == true && dict.contains(word.substring(j, i))) {
-                    dp[i] = true;
-                    break;
-                }
+    
+    public boolean found(int i, String w, Set<String> wordSet){
+        if(i==w.length()){
+            return true;
+        }
+        
+        for(int index = i;index<w.length();index++){
+            if(wordSet.contains(w.substring(i,index+1)) && found(index+1,w,wordSet)==true){
+                return true;
             }
         }
-        return dp[word.length()];
+        return false;
     }
 }
