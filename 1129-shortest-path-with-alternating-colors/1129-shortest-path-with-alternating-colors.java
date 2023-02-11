@@ -29,9 +29,8 @@ class Solution {
             Arrays.fill(p,Integer.MAX_VALUE);
         }
         
-        boolean[][] visited=new boolean[n][2];
-        findDistance(0,0,redAdj,blueAdj,true,pathArr,visited);
-        findDistance(0,0,redAdj,blueAdj,false,pathArr,visited);
+        findDistance(0,0,redAdj,blueAdj,true,pathArr);
+        findDistance(0,0,redAdj,blueAdj,false,pathArr);
         int[] res=new int[n];
         for(int i=0;i<n;i++){
             res[i] = Math.min(pathArr[i][0],pathArr[i][1]);
@@ -48,23 +47,20 @@ class Solution {
                              Map<Integer,Set<Integer>> redAdj,
                              Map<Integer,Set<Integer>> blueAdj,
                              boolean redEdge,
-                             int[][] pathArr,
-                             boolean[][] visited
+                             int[][] pathArr
                             ){
         
         Set<Integer> neighbours = redEdge ? redAdj.get(node):blueAdj.get(node);
         int color = redEdge ? 0:1;
-        if(visited[node][color] || distance>pathArr[node][color]){
+        if( distance>pathArr[node][color]){
             return;
         }
         pathArr[node][color] = Math.min(pathArr[node][color],distance);
         // System.out.println(node + " "+pathArr[node]+" "+distance);
-        visited[node][color]=true;
         for(int neighbour : new ArrayList<>(neighbours)){
                 neighbours.remove(neighbour);
-                findDistance(neighbour,distance+1,redAdj,blueAdj,!redEdge,pathArr,visited);
+                findDistance(neighbour,distance+1,redAdj,blueAdj,!redEdge,pathArr);
                 neighbours.add(neighbour);
         }
-        visited[node][color]=false;
     }
 }
