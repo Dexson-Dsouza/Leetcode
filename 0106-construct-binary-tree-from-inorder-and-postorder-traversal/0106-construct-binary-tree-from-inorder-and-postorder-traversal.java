@@ -39,7 +39,7 @@ class Solution {
         int rightSubtreeNodeCount = ie - rootIndexInorder ;
         int leftSubtreeCount = rootIndexInorder - is;
         root.left = helper(inorder,is,rootIndexInorder-1,postorder,ps,ps+leftSubtreeCount-1);
-        root.right = helper(inorder,rootIndexInorder+1,ie,postorder,ps+leftSubtreeCount,pe-1);
+        root.right = helper(inorder,rootIndexInorder+1,ie,postorder,pe-rightSubtreeNodeCount,pe-1);
         
         return root;
     }
