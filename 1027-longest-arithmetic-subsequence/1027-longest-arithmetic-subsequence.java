@@ -1,24 +1,22 @@
 class Solution {
     public int longestArithSeqLength(int[] nums) {
         Map<Integer,Map<Integer,Integer>> indexSequenceMap=new HashMap<>();
-        
-        int inputLength=nums.length;
-        
-        int longestSeq=0;
-        
-        for(int i=0;i<inputLength;i++){
-            Map<Integer,Integer> curSeqMap=new HashMap<>();
-            curSeqMap.put(0,1);
-            for(int j=0;j<i;j++){
-                int diff=nums[i]-nums[j];
-                Map<Integer,Integer> prevIndexSeqMap = indexSequenceMap.get(j);
-                int prevLen=curSeqMap.getOrDefault(diff,0);
-                curSeqMap.put(diff,Math.max(prevLen, Math.max(1 +  prevIndexSeqMap.getOrDefault(diff,0),2)));
-                longestSeq=Math.max(longestSeq,curSeqMap.get(diff));
+        int longestSeqResult = 0;
+        for(int i = 0;i<nums.length;i++){
+            Map<Integer,Integer> currentSeqMap = new HashMap<>();
+            for(int j = i-1;j>=0;j--){
+                int diff = nums[i] - nums[j];
+                Map<Integer,Integer> prevIndexMap = indexSequenceMap.get(j);
+                
+                int curSeqLen = 1 + prevIndexMap.getOrDefault(diff,0);
+                int prevSeqLen = currentSeqMap.getOrDefault(diff,0);
+                int longestSeq = Math.max(curSeqLen,prevSeqLen);
+                currentSeqMap.put(diff,longestSeq);
+                longestSeqResult = Math.max(longestSeqResult,longestSeq);
             }
             
-            indexSequenceMap.put(i,curSeqMap);
+            indexSequenceMap.put(i,currentSeqMap);
         }
-        return longestSeq;
+        return longestSeqResult+1;
     }
 }
