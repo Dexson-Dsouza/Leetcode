@@ -14,23 +14,27 @@
  * }
  */
 class Solution {
-    public boolean twoSumBSTs(TreeNode root1, TreeNode root2, int target) {
-        if(root1==null || root2==null){
-            return false;
+    private void dfs(TreeNode currNode, Set<Integer> nodeSet) {
+        if (currNode == null) {
+            return;
         }
-        
-        int sum = root1.val + root2.val;
-        
-        if(sum==target){
-            return true;
-        }
-        
-        if(sum<target){
-            return twoSumBSTs(root1.right,root2,target) || twoSumBSTs(root1,root2.right,target);
-        }else{
-            return twoSumBSTs(root1.left,root2,target) || twoSumBSTs(root1,root2.left,target);
-        }
-        
-        
+        dfs(currNode.left, nodeSet);
+        nodeSet.add(currNode.val);
+        dfs(currNode.right, nodeSet);
     }
+    
+    public boolean twoSumBSTs(TreeNode root1, TreeNode root2, int target) {
+        Set<Integer> nodeSet1 = new HashSet<>();
+        Set<Integer> nodeSet2 = new HashSet<>();
+        dfs(root1, nodeSet1);
+        dfs(root2, nodeSet2);
+
+        for (int value1 : nodeSet1) {
+            if (nodeSet2.contains(target - value1)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }   
 }
