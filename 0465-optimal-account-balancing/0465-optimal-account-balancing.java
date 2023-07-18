@@ -37,13 +37,13 @@ if(debts[curPerson]==0){
 int transactions=Integer.MAX_VALUE;
 
 for(int nextPerson=curPerson+1;nextPerson<debts.length;nextPerson++){
-	// if(debts[curPerson]*debts[nextPerson]<0){
+	if(debts[curPerson]*debts[nextPerson]<0){
 		int t= debts[curPerson];
 		debts[nextPerson]+=t;
 		transactions=Math.min(transactions,
 1+findMinimunTransactions(debts,curPerson+1,minimumTransactionRequired));
 		debts[nextPerson]-=t;
-// }
+}
 }
 minimumTransactionRequired[curPerson] = transactions;
    
