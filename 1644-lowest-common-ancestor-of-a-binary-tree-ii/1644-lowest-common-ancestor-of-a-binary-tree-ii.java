@@ -25,7 +25,6 @@ class Solution {
         if(lca!=null){
             return true;
         }
-        // System.out.println(root.val +" "+ leftSearch+" "+rightSearch);
         if(leftSearch && rightSearch){
             lca = root;
             return true;
@@ -33,7 +32,6 @@ class Solution {
         
         if((root==p) || (root==q)){
             if(leftSearch || rightSearch){
-                // System.out.println("found");
                 lca = root;
             }
             
