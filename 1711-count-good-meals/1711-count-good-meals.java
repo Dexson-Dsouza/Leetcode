@@ -4,7 +4,7 @@ class Solution {
         int mod = (int)Math.pow(10,9)+7;
         long curNum = 1;
         powersOf2.add(1);
-        for(int i=1;i<=32;i++){
+        for(int i=1;i<=21;i++){
             curNum = curNum<<1;
             powersOf2.add((int)(curNum%mod));
         }
