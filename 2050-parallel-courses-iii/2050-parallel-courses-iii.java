@@ -3,7 +3,7 @@ class Solution {
         int[] indeg = new int[n+1];
         
         Map<Integer,List<Integer>> adj=new HashMap<>();
-        
+        int[] maxTimeArr = new int[n+1];
         for(int i=1;i<=n;i++){
             adj.put(i,new ArrayList<>());
         }
@@ -28,7 +28,7 @@ class Solution {
             int[] front = courseInQueue.poll();
             int course=front[0];
             int curTime=front[1];
-            maxTime = Math.max(maxTime,curTime);
+            maxTimeArr[course] = Math.max(maxTimeArr[course],curTime);
             
             
             for(int next:adj.get(course)){
@@ -37,6 +37,10 @@ class Solution {
                     courseInQueue.add(new int[]{next,curTime + time[next-1] });
                 }
             }
+        }
+        
+        for(int t:maxTimeArr){
+            maxTime = Math.max(maxTime,t);
         }
         
         return maxTime;
