@@ -13,11 +13,12 @@ class Solution {
             adj.get(rel[0]).add(rel[1]);
         }
         
-        PriorityQueue<int[]> courseInQueue = new PriorityQueue<>((a,b)->a[1]-b[1]);
+        Queue<int[]> courseInQueue = new LinkedList<>();
         
         for(int i=1;i<=n;i++){
             if(indeg[i]==0){
                 courseInQueue.add(new int[]{i,time[i-1]});
+                maxTimeArr[i] = time[i-1];
             }
         }
         
@@ -28,11 +29,12 @@ class Solution {
             int[] front = courseInQueue.poll();
             int course=front[0];
             int curTime=front[1];
-            maxTimeArr[course] = Math.max(maxTimeArr[course],curTime);
+            
             
             
             for(int next:adj.get(course)){
                 indeg[next]--;
+                maxTimeArr[next] = Math.max(maxTimeArr[next],maxTimeArr[course]+time[next-1]);
                 if(indeg[next]==0){
                     courseInQueue.add(new int[]{next,curTime + time[next-1] });
                 }
