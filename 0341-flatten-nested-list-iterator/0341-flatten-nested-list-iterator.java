@@ -16,32 +16,32 @@
  * }
  */
 public class NestedIterator implements Iterator<Integer> {
-    List<Integer> flattendList;
+    Stack<NestedInteger> flattendStack;
     int index;
     public NestedIterator(List<NestedInteger> nestedList) {
-        flattendList = new ArrayList<>();
-        flatten(nestedList,flattendList);
+        flattendStack = new Stack<>();
+        addToStack(nestedList,flattendStack);
         index = 0;
     }
 
-    public void flatten(List<NestedInteger> nestedList, List<Integer> flattendList){
-        for(NestedInteger n:nestedList){
-            if(n.isInteger()){
-                flattendList.add(n.getInteger());
-            }else{
-                flatten(n.getList(),flattendList);
-            }
+    public void addToStack(List<NestedInteger> nestedList, Stack<NestedInteger> flattendStack){
+        for(int i=nestedList.size()-1;i>=0;i--){
+            flattendStack.push(nestedList.get(i));
         }
     }
     
     @Override
     public Integer next() {
-        return flattendList.get(index++);
+        return flattendStack.pop().getInteger();
     }
 
     @Override
     public boolean hasNext() {
-        return index<flattendList.size();
+        while(flattendStack.size()>0 && !flattendStack.peek().isInteger()){
+            List<NestedInteger> nestedList = flattendStack.pop().getList();
+            addToStack(nestedList,flattendStack);
+        }
+        return flattendStack.size()>0;
     }
 }
 
