@@ -1,35 +1,33 @@
 class Solution {
     public String longestPalindrome(String s) {
-        int maxLen = 0;
-        int startIndex = 0;
-        int len = s.length();
-        for(int i=0;i<len;i++){
-            int palLen1 = getLen(s,i,i);
-            if(palLen1>maxLen){
-                maxLen = palLen1;
-                startIndex = i - palLen1/2;
-            }
+        if(s.length()<2)
+            return s;
             
-            int palLen2 = getLen(s,i,i+1);
-            if(palLen2>maxLen){
-                maxLen = palLen2;
-                startIndex = i - palLen2/2 +1; 
+        int start=0;
+        int maxLen=0;
+
+        for(int i=0;i<s.length();i++){
+            int len1=extend(s,i,i);
+            int len2=extend(s,i,i+1);
+            int len=Math.max(len1,len2);
+
+            if(len>maxLen){
+                start=i-((len-1)/2);
+                maxLen= len;
             }
         }
-        // System.out.println(startIndex+" "+maxLen);
-        return s.substring(startIndex,startIndex+maxLen);
+        return s.substring(start,start+maxLen);
+        
     }
     
-    public int getLen(String s, int i, int j){
-        int len = 0;
-        if(i==j){
-            len  = -1;
+    public int extend(String s,int left,int right){
+        if(s==null||left>right)
+            return 0;
+        
+        while(left>=0 && right<s.length() && s.charAt(left)==s.charAt(right)){
+            left--;
+            right++;
         }
-        while(i>=0 && j<s.length() && s.charAt(i)==s.charAt(j)){
-            i--;
-            j++;
-            len+=2;
-        }
-        return len;
+        return right-left-1;
     }
 }
