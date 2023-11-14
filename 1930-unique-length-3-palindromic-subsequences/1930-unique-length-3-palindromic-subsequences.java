@@ -17,7 +17,7 @@ class Solution {
             for(int characterIndex=0;characterIndex<26;characterIndex++){
                 int palCount = Math.min(leftCount[characterIndex],rightCount[characterIndex]);
                 int key = 26*cur + characterIndex;
-                if(palCount>0 && palindromes.contains(key)==false){
+                if(palCount>0 ){
                     palindromes.add(key);
                 }
             }
