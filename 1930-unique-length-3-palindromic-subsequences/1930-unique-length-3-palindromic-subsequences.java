@@ -16,7 +16,8 @@ class Solution {
             rightCount[cur-'a']--;
             for(int characterIndex=0;characterIndex<26;characterIndex++){
                 int palCount = Math.min(leftCount[characterIndex],rightCount[characterIndex]);
-                if(palCount>0){
+                String key = characterIndex+"_"+curIndex+"_"+characterIndex;
+                if(palCount>0 && palindromes.contains(key)==false){
                     palindromes.add(characterIndex+"_"+curIndex+"_"+characterIndex);
                 }
             }
