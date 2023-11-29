@@ -13,10 +13,10 @@ class Solution {
                 maxCount=Math.max(maxCount,count.get(c));
             }
             
-            int extraCount = (end-start+1 - maxCount);
+            int length = (end-start+1);
             
             
-            if(start<end && extraCount>k){
+            if(start<end && k+maxCount<length){
                 char startChar=s.charAt(start);
                 count.put(startChar,count.get(startChar)-1);
                 if(count.get(startChar)==0){
