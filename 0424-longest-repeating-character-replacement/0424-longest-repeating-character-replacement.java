@@ -8,7 +8,6 @@ class Solution {
         while(end<len){
             char ch=s.charAt(end);
             count.put(ch,count.getOrDefault(ch,0)+1);
-            
             int maxCount=0;
             for(char c:count.keySet()){
                 maxCount=Math.max(maxCount,count.get(c));
@@ -25,11 +24,6 @@ class Solution {
                 }
                 start++;
                 
-            }
-            
-            maxCount=0;
-            for(char c:count.keySet()){
-                maxCount=Math.max(maxCount,count.get(c));
             }
             res=Math.max(res,end-start+1);
             end++;
