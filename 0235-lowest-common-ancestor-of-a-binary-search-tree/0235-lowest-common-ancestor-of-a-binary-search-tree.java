@@ -13,14 +13,21 @@ class Solution {
         if(root==null){
             return root;
         }
-        if(root.val==p.val || root.val==q.val){
+        
+        if(root==p || root==q){
             return root;
         }
-        TreeNode leftLCA = lowestCommonAncestor(root.left,p,q);
-        TreeNode rightLCA = lowestCommonAncestor(root.right,p,q);
-        if(leftLCA!=null && rightLCA!=null){
+        
+        TreeNode leftSearch = lowestCommonAncestor(root.left,p,q);
+        TreeNode rightSearch = lowestCommonAncestor(root.right,p,q);
+        if(leftSearch!=null && rightSearch!=null){
             return root;
         }
-        return leftLCA!=null?leftLCA:(rightLCA!=null?rightLCA:null);
+        
+        if(leftSearch!=null || rightSearch!=null){
+            return leftSearch!=null?leftSearch:rightSearch;
+        }
+        
+        return null;
     }
 }
