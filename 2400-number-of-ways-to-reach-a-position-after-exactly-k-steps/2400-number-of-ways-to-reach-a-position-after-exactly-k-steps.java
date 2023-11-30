@@ -18,11 +18,11 @@ class Solution {
         
         int steps=0;
         int distance = Math.abs(endPos-startPos);
-        // if(distance<=k){
-        int takeLeft = findAllWays(startPos-1,endPos,k-1,positionStepMap);
-        int takeRight = findAllWays(startPos+1,endPos,k-1,positionStepMap);
-        steps=(takeLeft + takeRight)%mod;
-        // }
+        if(distance<=k){
+            int takeLeft = findAllWays(startPos-1,endPos,k-1,positionStepMap);
+            int takeRight = findAllWays(startPos+1,endPos,k-1,positionStepMap);
+            steps=(takeLeft + takeRight)%mod;
+        }
         positionStepMap.put(positionKey,steps);
         return steps;
     }
