@@ -1,49 +1,23 @@
 class Solution {
     public String addBinary(String a, String b) {
-        int i=a.length()-1;
-        int j=b.length()-1;
-        int carry=0;
+        int carry = 0;
+        int i1=a.length()-1;
+        int i2=b.length()-1;
+        StringBuilder sumStr= new StringBuilder();
         
-        StringBuilder res=new StringBuilder();
-        while(i>=0 && j>=0){
-            int sum = (a.charAt(i)-'0')+(b.charAt(j)-'0')+carry;
-            if((sum&1)!=0){
-                res.append('1');
-            }else{
-                res.append('0');
-            }
-            
-            carry = (sum&2)!=0?1:0;
-            i--;
-            j--;
+        while(i1>=0 || i2>=0){
+            int aBit = i1>=0 ? a.charAt(i1)-'0':0;
+            int bBit = i2>=0 ? b.charAt(i2)-'0':0;
+            int sum = aBit+bBit+carry;
+            carry = sum/2;
+            sum = sum%2;
+            sumStr.append(sum);
+            i1--;
+            i2--;
         }
-        
-        while(i>=0){
-            int sum = (a.charAt(i)-'0')+carry;
-            if((sum&1)!=0){
-                res.append('1');
-            }else{
-                res.append('0');
-            }
-            
-            carry = (sum&2)!=0?1:0;
-            i--;
+        if(carry!=0){
+            sumStr.append(carry);
         }
-        while(j>=0){
-            int sum = (b.charAt(j)-'0')+carry;
-            if((sum&1)!=0){
-                res.append('1');
-            }else{
-                res.append('0');
-            }
-            
-            carry = (sum&2)!=0?1:0;
-            j--;
-        }
-        if(carry==1){
-            res.append('1');
-        }
-        res.reverse();
-        return res.toString();
+        return sumStr.reverse().toString();
     }
 }
