@@ -34,10 +34,17 @@ class Solution {
             m.get(p).add(i);
         }
         
-        for(int i=0;i<n;i++){
-            int p=find(i);
-            int connectedNodes=m.get(p).size();
-            count += (n-connectedNodes);   
+        // for(int i=0;i<n;i++){
+        //     int p=find(i);
+        //     int connectedNodes=m.get(p).size();
+        //     count += (n-connectedNodes);   
+        //     // System.out.println(i+" "+count);
+        // }
+        
+        for(int group:m.keySet()){
+            long connectedNodes=(long)m.get(group).size();
+            long remNode =(long) n-connectedNodes;
+            count += connectedNodes*remNode;
         }
         
         
