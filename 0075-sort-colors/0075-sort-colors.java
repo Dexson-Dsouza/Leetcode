@@ -18,9 +18,9 @@ class Solution {
                 right--;
             }
         }
-        while(left<right){
-            nums[left]=1;
-            left++;
-        }
+        // while(left<right){
+        //     nums[left]=1;
+        //     left++;
+        // }
     }
 }
