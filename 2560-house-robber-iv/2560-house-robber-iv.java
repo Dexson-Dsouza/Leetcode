@@ -6,16 +6,14 @@ class Solution {
         int minCap = -1;
         while(l<=r){
             int mid = l+(r-l)/2;
-            int[] count=new int[nums.length+1];
+            int count = 0;
             for(int i=1;i<=nums.length;i++){
                 if(nums[i-1]<=mid){
-                    int prevCount = ((i-2)>=0)?count[i-2]:0;
-                    count[i]=Math.max(count[i-1],1+prevCount);
-                }else{
-                    count[i]=count[i-1];
+                    count++;
+                    i++;
                 }
             }
-            if(count[nums.length]>=k){
+            if(count>=k){
                 r=mid-1;
                 minCap = mid;
             }else{
