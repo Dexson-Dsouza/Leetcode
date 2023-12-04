@@ -1,29 +1,27 @@
 class Solution {
     public int trap(int[] height) {
-        int ans = 0;
-        int size = height.length;
-        int left = 0;
-        int right = size - 1;
-        
-        while(left<right){
-            if(height[left]<=height[right]){
-                //check left bar
-                int index = left;
-                while(index<right && height[index]<=height[left]){
-                    ans += height[left] - height[index]; 
-                    index++;
+        int l=0;
+        int r=height.length-1;
+        int waterCollected=0;
+        while(l<r){
+            
+            if(height[l]<=height[r]){
+                int poleHeight = height[l];
+                
+                while(l<r && height[l]<=poleHeight){
+                    waterCollected += poleHeight-height[l];
+                    l++;
                 }
-                left = index;
             }else{
-                //check right bar
-                int index = right;
-                while(index>left && height[index]<=height[right]){
-                    ans += height[right] - height[index]; 
-                    index--;
+                int poleHeight = height[r];
+                
+                while(l<r && height[r]<=poleHeight){
+                    waterCollected += poleHeight-height[r];
+                    r--;
                 }
-                right = index;
             }
+            
         }
-        return ans;
-    }
+        return waterCollected;
+    }   
 }
