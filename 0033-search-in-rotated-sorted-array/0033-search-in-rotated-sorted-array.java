@@ -6,24 +6,20 @@ class Solution {
     while (l <= r) {
         
       int mid = l + (r - l) / 2;
-        // System.out.println(l+" "+r +" "+mid);
+        
+      if (nums[mid] == target) {
+        index = mid;
+        break;
+      }
       if (nums[l] <= nums[mid]) {
         if (nums[l] <= target && nums[mid] >= target) {
           r = mid - 1;
-          if (nums[mid] == target) {
-            index = mid;
-            break;
-          }
         } else {
           l = mid + 1;
         }
       } else {
         if (nums[mid] <= target && nums[r] >= target) {
           l = mid + 1;
-          if (nums[mid] == target) {
-            index = mid;
-            break;
-          }
         } else {
           r = mid - 1;
         }
