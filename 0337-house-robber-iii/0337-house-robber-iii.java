@@ -16,7 +16,7 @@
 class Solution {
     public int rob(TreeNode root) {
         int[] robSkipPair = steal(root);
-        return Math.max(robSkipPair[0],robSkipPair[1]);
+        return robSkipPair[0];
     }
     
     int[] steal(TreeNode root){
