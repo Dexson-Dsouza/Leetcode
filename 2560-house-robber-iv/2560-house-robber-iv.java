@@ -7,8 +7,8 @@ class Solution {
         while(l<=r){
             int mid = l+(r-l)/2;
             int count = 0;
-            for(int i=1;i<=nums.length;i++){
-                if(nums[i-1]<=mid){
+            for(int i=0;i<nums.length;i++){
+                if(nums[i]<=mid){
                     count++;
                     i++;
                 }
