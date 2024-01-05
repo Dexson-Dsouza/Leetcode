@@ -1,27 +1,36 @@
 class Solution {
-
-      int maximumDetonation(int[][] bombs) {
-        int n = bombs.length, ans = 0;
-        for (int i = 0; i < n; i++) {
-            ans = Math.max(ans, dfs(i, new boolean[n], bombs));
+    public int maximumDetonation(int[][] bombs) {
+        int total = bombs.length;
+        int maxCount = 0;
+        for(int i=0;i<total;i++){
+            boolean[] visited= new boolean[total];
+            int count = dfs(visited,i,bombs);
+            maxCount = Math.max(maxCount,count);
         }
-        return ans;
+        return maxCount;
     }
-
-     int dfs(int idx, boolean[] v, int[][] bombs) {
+    
+    int dfs(boolean[] visited, int index, int[][] bombs){
+        if(visited[index]){
+            return 0;
+        }
+        visited[index]=true;
         int count = 1;
-        v[idx] = true;
-        int n = bombs.length;
-        for (int i = 0; i < n; i++) {
-            if (!v[i] && inRange(bombs[idx], bombs[i])) {
-                count += dfs(i, v, bombs);
+        for(int i=0;i<bombs.length;i++){
+            if(i==index){
+                continue;
+            }
+            if(inRange(bombs,i,index)){
+                count+= dfs(visited,i,bombs);
             }
         }
         return count;
     }
-
-     boolean inRange(int[] a, int[] b) {
-        long dx = a[0] - b[0], dy = a[1] - b[1], r = a[2];
-        return dx * dx + dy * dy <= r * r;
+    
+    boolean inRange(int[][] bombs, int i,int j){
+        double dist = Math.sqrt(Math.pow(bombs[i][0]-bombs[j][0],2) 
+                                + Math.pow(bombs[i][1]-bombs[j][1],2));
+        double radius = (double)(bombs[j][2]);
+        return radius>=dist;
     }
-};
+}
