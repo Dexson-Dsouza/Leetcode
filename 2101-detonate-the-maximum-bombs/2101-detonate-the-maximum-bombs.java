@@ -17,7 +17,7 @@ class Solution {
         visited[index]=true;
         int count = 1;
         for(int i=0;i<bombs.length;i++){
-            if(i==index){
+            if(i==index || visited[i]){
                 continue;
             }
             if(inRange(bombs,i,index)){
