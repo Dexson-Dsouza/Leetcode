@@ -1,39 +1,33 @@
 class Solution {
-    public String fractionToDecimal(int n, int d) {
-        boolean positive = true;
-        if((n>0 && d<0) || (n<0 && d>0)){
-            positive=false;
-        }
-            
-        long numerator = Math.abs((long)n);
-        long denominator = Math.abs((long)d);
-        // System.out.println(numerator+" "+denominator);
-        StringBuilder res = new StringBuilder();
-        long digit = numerator/denominator;
-        res.append(digit);
-        numerator = numerator %denominator;
-        Map<Long,Integer> digitIndex = new HashMap<>();
+    public String fractionToDecimal(int numerator, int denominator) {
         
-        if(numerator!=0){
+        StringBuilder res = new StringBuilder();
+        if(numerator==0){
+            return "0";
+        }
+        if((numerator>0 && denominator<0) || (numerator<0 && denominator>0)){
+            res.append("-");
+        }
+        Map<Long,Integer> digitIndexMap=new HashMap<>();
+        long num = Math.abs((long)numerator);
+        long dem = Math.abs((long)denominator);
+        long q = num/dem;
+        long r = num%dem;
+        res.append(q);
+        if(r!=0)
             res.append('.');
-        }
-        while(numerator!=0){
-            if(digitIndex.containsKey(numerator)){
-                int startIndex = digitIndex.get(numerator);
-                res.insert(startIndex,'(');
-                res.append(')');
+        while(r!=0){
+            num = (r*10);
+            if(digitIndexMap.containsKey(num)){
+                res.insert(digitIndexMap.get(num)-1, "(");
+                res.append(")");
                 break;
-            }else{
-                digitIndex.put(numerator,res.length());
             }
-            numerator*=10;
-            digit = numerator/denominator;
-            res.append(digit);
-            numerator = numerator % denominator;
-            
-        }
-        if(positive==false){
-            res.insert(0,'-');
+            q = num/dem;
+            r = num%dem;
+            res.append(q);
+            digitIndexMap.put(num,res.length());
+            // System.out.println(q+" "+r+" "+res+" " +num+" "+dem );
         }
         return res.toString();
     }
