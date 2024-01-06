@@ -15,35 +15,46 @@
  */
 class Solution {
     public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {
-        Set<Integer> deleted=new HashSet<>();
-        for(int n:to_delete){
-            deleted.add(n);
+        Set<TreeNode> forest=new HashSet<>();
+        forest.add(root);
+        Map<TreeNode,TreeNode> nodeParentMap=new HashMap<>();
+        Map<Integer,TreeNode> valueNodeMap=new HashMap<>();
+        traverse(root,null,nodeParentMap,valueNodeMap);
+        
+        for(int val:to_delete){
+            TreeNode node = valueNodeMap.get(val);
+            // remove from forest
+            forest.remove(node);
+            
+            // disconnect from tree
+            
+            TreeNode parent = nodeParentMap.get(node);
+            if(parent!=null && parent.left==node){
+                parent.left=null;
+            }else if(parent!=null && parent.right==node){
+                parent.right=null;
+            }
+            // add children
+            if(node.left!=null){
+                forest.add(node.left);
+            }
+            if(node.right!=null){
+                forest.add(node.right);
+            }
+            
+                
         }
-        List<TreeNode> forests=new ArrayList<>();
-        traverse(root,true,deleted,forests);
-        return forests;
+        return new ArrayList<>(forest);
     }
     
-    boolean traverse(TreeNode root, boolean parentDeleted, Set<Integer> deleted, List<TreeNode> forests){
+    void traverse(TreeNode root, TreeNode par, Map<TreeNode,TreeNode> nodeParentMap,
+                 Map<Integer,TreeNode> valueNodeMap){
         if(root==null){
-            return false;
+            return;
         }
-        
-        boolean isDeleted= deleted.contains(root.val);
-        
-        if(parentDeleted==true && isDeleted==false){
-            forests.add(root);
-        }
-        
-        boolean left=traverse(root.left,isDeleted,deleted,forests);
-        boolean right=traverse(root.right,isDeleted,deleted,forests);
-        
-        if(left==true){
-            root.left=null;
-        }
-        if(right==true){
-            root.right=null;
-        }
-        return isDeleted;
+        valueNodeMap.put(root.val,root);
+        nodeParentMap.put(root,par);
+        traverse(root.left,root,nodeParentMap,valueNodeMap);
+        traverse(root.right,root,nodeParentMap,valueNodeMap);
     }
 }
