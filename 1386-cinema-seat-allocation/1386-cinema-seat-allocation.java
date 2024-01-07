@@ -1,41 +1,41 @@
 class Solution {
     public int maxNumberOfFamilies(int n, int[][] reservedSeats) {
-        Map<Integer,List<Integer>> rows=new HashMap<>();
+        Map<Integer,List<Integer>> rowSeatMap= new HashMap<>();
         
         for(int[] seat:reservedSeats){
-            int row=seat[0];
-            int col=seat[1];
-            if(rows.containsKey(row)==false){
-                rows.put(row,new ArrayList<>());
-                rows.get(row).add(0);
+            int row=seat[0],col=seat[1];
+            if(!rowSeatMap.containsKey(row)){
+                rowSeatMap.put(row,new ArrayList<>());
+                rowSeatMap.get(row).add(0);
             }
-            rows.get(row).add(col);
+            rowSeatMap.get(row).add(col);
         }
-        
-        int countOfAssignedFams=0;
-        
-        for(int row:rows.keySet()){
-            List<Integer> seats=rows.get(row);
-            Collections.sort(seats);
-            seats.add(11);
-            int i=1;
-            while(i<seats.size()){
+        int count = (n-rowSeatMap.size())*2;
+        for(int row:rowSeatMap.keySet()){
+            List<Integer> cols =rowSeatMap.get(row);
+            cols.add(11);
+            Collections.sort(cols);
+            for(int i=1;i<cols.size();i++){
+                int leftSeat = cols.get(i-1);
+                int rightSeat = cols.get(i);
+                int seatInBetween = cols.get(i)-cols.get(i-1)-1;
                 
-                if(seats.get(i-1)<=1 && seats.get(i)>=10){
-                    countOfAssignedFams+=2;
-                }else if(seats.get(i-1)<=1 && seats.get(i)>=6){
-                    countOfAssignedFams++;
-                }else if(seats.get(i-1)<=5 && seats.get(i)>=10){
-                    countOfAssignedFams++;
-                }else if(seats.get(i-1)<=3 && seats.get(i)>=8){
-                    countOfAssignedFams++;
+                if(seatInBetween>=8){
+                    if( leftSeat<=1 && rightSeat>=10 ){
+                        count+=2;
+                    }else{
+                        count++;
+                    }
+                }else if(seatInBetween>=4){
+                    if(  (leftSeat<2 && rightSeat>5)
+                      || (leftSeat<4 && rightSeat>7)
+                      || (leftSeat<6 && rightSeat>9)
+                      ){
+                        count++;
+                    }
                 }
-                i++;
             }
-            // System.out.println(countOfAssignedFams+" "+row);
         }
-        
-        int emptyRows=n-rows.size();
-        return countOfAssignedFams + emptyRows*(10/4);
+        return count;
     }
 }
