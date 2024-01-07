@@ -14,16 +14,10 @@ class Solution {
                     y += dir[dirIndex][1];
                     break;
                 case 'L':
-                    dirIndex--;
-                    if(dirIndex==-1){
-                        dirIndex=3;
-                    }
+                    dirIndex = (dirIndex-1+4)%4;
                     break;
                 case 'R':
-                    dirIndex++;
-                    if(dirIndex==4){
-                        dirIndex=0;
-                    }
+                    dirIndex = (dirIndex+1)%4;
                     break;
                 default:
             }
