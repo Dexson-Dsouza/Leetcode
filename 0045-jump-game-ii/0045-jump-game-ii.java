@@ -12,6 +12,6 @@ class Solution {
             }
         }
         
-        return curPos>=nums.length-1?jumps:-1;
+        return jumps;
     }
 }
