@@ -1,29 +1,18 @@
 class Solution {
     public int countBinarySubstrings(String s) {
-        int cntOne= 0;
-        int cntZero = 0;
-        int count = 0;
-        for(int i=0;i<s.length();i++){
-            char cur = s.charAt(i);
-            if(i>0 && cur!=s.charAt(i-1)){
-                if(cur=='1'){
-                    cntOne = 0;
-                }else{
-                    cntZero = 0;
-                }
+        int index=0;
+        int prevCount=0;
+        int res=0;
+        while(index<s.length()){
+            char cur = s.charAt(index);
+            int curCount = 0;
+            while(index<s.length() && s.charAt(index)==cur){
+                curCount++;
+                index++;
             }
-            if(cur=='1'){
-                cntOne++;
-                if(cntOne<=cntZero){
-                    count++;
-                }
-            }else{
-                cntZero++;
-                if(cntZero<=cntOne){
-                    count++;
-                }
-            }
+            res+=Math.min(prevCount,curCount);
+            prevCount=curCount;
         }
-        return count;
+        return res;
     }
 }
