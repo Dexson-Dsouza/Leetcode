@@ -17,17 +17,16 @@ class Solution {
         if(r!=0)
             res.append('.');
         while(r!=0){
-            num = (r*10);
-            if(digitIndexMap.containsKey(num)){
-                res.insert(digitIndexMap.get(num)-1, "(");
+            r = (r*10);
+            if(digitIndexMap.containsKey(r)){
+                res.insert(digitIndexMap.get(r)-1, "(");
                 res.append(")");
                 break;
             }
-            q = num/dem;
-            r = num%dem;
+            q = r/dem;
             res.append(q);
-            digitIndexMap.put(num,res.length());
-            // System.out.println(q+" "+r+" "+res+" " +num+" "+dem );
+            digitIndexMap.put(r,res.length());
+            r = r%dem;
         }
         return res.toString();
     }
