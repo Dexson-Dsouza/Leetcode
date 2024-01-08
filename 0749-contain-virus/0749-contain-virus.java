@@ -53,17 +53,12 @@ class Solution {
         }
 
         // Sort the regions. Region which can infected most neighbors first.
-        regions.sort(new Comparator<Region>() {
-            @Override
-            public int compare(Region o1, Region o2) {
-                return o2.uninfectedNeighbors.size() - o1.uninfectedNeighbors.size();
-            }
-        });
+        Collections.sort(regions,(a,b)->b.uninfectedNeighbors.size()-a.uninfectedNeighbors.size());
 
         // Build wall around region which can infect most neighbors.
         Region regionThatCauseMostInfection = regions.remove(0);
         result += regionThatCauseMostInfection.wallsRequired;
-        System.out.println(result);
+        // System.out.println(result);
         for (int neighbor : regionThatCauseMostInfection.infected) {
             int row = neighbor / cols;
             int col = neighbor % cols;
