@@ -1,14 +1,17 @@
 class Solution {
     public int jump(int[] nums) {
-        int[] dp = new int[nums.length];
-        Arrays.fill(dp,Integer.MAX_VALUE);
-        dp[0]=0;
+        int curMax=0;
+        int curPos=0;
+        int maxReach=0;
+        int jumps = 0;
         for(int i=0;i<nums.length-1;i++){
-            for(int j=1;j<=nums[i];j++){
-                int jump = Math.min(i+j,nums.length-1);
-                dp[jump] = Math.min(dp[jump],1+dp[i]);
+            curMax = Math.max(curMax,nums[i]+i);
+            if(curPos == i){
+                jumps++;
+                curPos = curMax;
             }
         }
-        return dp[nums.length-1];
+        
+        return curPos>=nums.length-1?jumps:-1;
     }
 }
