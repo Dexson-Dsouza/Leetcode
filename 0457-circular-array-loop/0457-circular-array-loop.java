@@ -19,7 +19,6 @@ class Solution {
             return false;
         }
         if(color[next] == 1) {
-            color[start] = 2;
             return true;
         }
         if(DFS(nums, color, next)) return true;
