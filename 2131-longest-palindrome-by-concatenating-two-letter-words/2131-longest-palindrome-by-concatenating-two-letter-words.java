@@ -11,7 +11,6 @@ class Solution {
         }
         
         Set<String> processed=new HashSet<>();
-        System.out.println(count);
         for(String word:count.keySet()){
             String reverse= new StringBuilder(word).reverse().toString();
             
