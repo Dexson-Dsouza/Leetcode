@@ -8,7 +8,7 @@ class Solution {
             rightCount[cur-'a']++;
         }
         
-        Set<Integer> palindromes = new HashSet<>();
+        Set<String> palindromes = new HashSet<>();
         
         for(int i=0;i<s.length();i++){
             char cur= s.charAt(i);
@@ -16,7 +16,7 @@ class Solution {
             rightCount[cur-'a']--;
             for(int characterIndex=0;characterIndex<26;characterIndex++){
                 int palCount = Math.min(leftCount[characterIndex],rightCount[characterIndex]);
-                int key = 26*cur + characterIndex;
+                String key = characterIndex +"-" + cur+ "-" + characterIndex;
                 if(palCount>0 ){
                     palindromes.add(key);
                 }
