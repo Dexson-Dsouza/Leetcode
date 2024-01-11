@@ -4,7 +4,7 @@ class Solution {
         int l2 = nums2.length;
         int total = l1 + l2;
         int m1 = (total)/2;
-        int m2 = total%2==1?((total)/2):(total-1)/2;
+        int m2 = (total-1)/2;
         double mid1 = find(nums1,nums2,0,0,m1+1);
         double mid2 = find(nums1,nums2,0,0,m2+1);
         // System.out.println((m1+1)+" "+mid1+" "+(m2+1)+" "+mid2);
