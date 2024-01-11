@@ -1,55 +1,54 @@
 class Solution {
     public boolean validateBinaryTreeNodes(int n, int[] leftChild, int[] rightChild) {
-        
-        
-        Map<Integer,List<Integer>> adj=new HashMap<>();
-        
-        boolean[] isParent=new boolean[n]; 
-        Arrays.fill(isParent,true);
+        int[] indeg=new int[n];
+        Arrays.fill(indeg,0);
         
         for(int i=0;i<n;i++){
-            adj.put(i,new ArrayList<>());
             if(leftChild[i]!=-1){
-                adj.get(i).add(leftChild[i]);
-                isParent[leftChild[i]]=false;
+                indeg[leftChild[i]]++;
             }
             if(rightChild[i]!=-1){
-                adj.get(i).add(rightChild[i]);
-                isParent[rightChild[i]]=false;
+                indeg[rightChild[i]]++;
             }
         }
-        int parent= -1;
         
+        
+        Queue<Integer> nodes = new LinkedList<>();
         for(int i=0;i<n;i++){
-            if(isParent[i]){
-                if(parent!=-1){
-                    return false;
-                }
-                parent = i;
+            if(indeg[i]==0){
+                nodes.add(i);
             }
-        }
-        if(parent == -1){
-            return false;
-        }
-        int visitedNodeCount = 0;
-        
-        Queue<Integer> q = new LinkedList<>();
-        q.add(parent);
-        Set<Integer> visited=new HashSet<>();
-        while(q.size()>0){
-            int cur=q.poll();
-            if(visited.contains(cur)){
+            if(indeg[i]>1){
                 return false;
             }
-            visitedNodeCount++;
-            visited.add(cur);
-            for(int neighbour:adj.get(cur)){
-                q.add(neighbour);
-            }
         }
         
-        return visitedNodeCount == n;
+        if(nodes.size()!=1){
+            return false;
+        }
         
+        int visited_node_count = 0;
         
+        while(nodes.size()>0){
+            int node = nodes.poll();
+            visited_node_count++;
+            int left_child = leftChild[node];
+            int right_child = rightChild[node];
+            
+            if(left_child!=-1){
+                indeg[left_child]--;
+                if(indeg[left_child]==0){
+                    nodes.add(left_child);
+                }
+            }
+            if(right_child!=-1){
+                indeg[right_child]--;
+                if(indeg[right_child]==0){
+                    nodes.add(right_child);
+                }
+            }
+            
+        }
+        return visited_node_count==n;
     }
 }
