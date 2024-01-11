@@ -15,25 +15,22 @@
  */
 class Solution {
     public int rob(TreeNode root) {
-        int[] robSkipPair = steal(root);
-        return robSkipPair[0];
+        int[] skip_take_pair = findMaxAmount(root);
+        
+        return Math.max(skip_take_pair[0],skip_take_pair[1]);
     }
     
-    int[] steal(TreeNode root){
+    int[] findMaxAmount(TreeNode root){
         if(root==null){
             return new int[]{0,0};
         }
         
-        int[] leftPair = steal(root.left);
-        int[] rightPair = steal(root.right);
+        int[] left_pair = findMaxAmount(root.left);
+        int[] right_pair = findMaxAmount(root.right);
+    
+        int take_root_amount =  root.val + left_pair[1] + right_pair[1];
+        int skip_root_amount =  left_pair[0] + right_pair[0];
         
-        int stealChildrenAmount = leftPair[0]+rightPair[0];
-        int skipChildrenAmount = leftPair[1]+rightPair[1];
-        int currentStealAmount = root.val + skipChildrenAmount;
-        
-        int maxSteal = Math.max(currentStealAmount,stealChildrenAmount);
-        
-        return new int[]{maxSteal,stealChildrenAmount};
-        
+        return new int[]{Math.max(take_root_amount,skip_root_amount),skip_root_amount};
     }
 }
