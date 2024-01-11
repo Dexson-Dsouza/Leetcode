@@ -17,7 +17,6 @@ class Solution {
                     fruitMap.put(prevFruit,updatedCount);
                 }
                 firstPtr++;
-                continue;
             }
             maxCount=Math.max(maxCount,secondPtr - firstPtr +1);
             secondPtr++;
