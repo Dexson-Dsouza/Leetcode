@@ -13,7 +13,7 @@ class Solution {
                 String pred="";
                 pred+=word.substring(0,i);
                 pred+=word.substring(i+1,word.length());
-                System.out.println(pred);
+                // System.out.println(pred);
                 int prevLen=map.getOrDefault(pred,0);
                 currLen = Math.max(prevLen+1,currLen);
             }
