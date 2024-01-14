@@ -1,30 +1,46 @@
 class Solution {
-    int[] nums;
-    public int splitArray(int[] nums, int m) {
-        this.nums = nums;
-        int low = 0, high = 0, min = Integer.MAX_VALUE;
-        for(int i=0;i<nums.length;i++){
-            low = Math.max(low, nums[i]);
-            high += nums[i];
+    public int splitArray(int[] nums, int k) {
+        int l = 0;
+        int r = 0;
+        int sum =0;
+        
+        for(int n:nums){
+            l = Math.max(l,n);
+            sum+=n;
         }
-        while(low <= high) {
-            int mid = (low + high) / 2;
-            if(required_no_of_chunks(mid, m)){
-               min = mid;
-               high = mid - 1;
+        
+        r= sum;
+        int smallest_sum = l;
+        while(l<=r){
+            int mid = l + (r-l)/2;
+            
+            int subarr_count = split(nums,mid);
+            if(subarr_count>k){
+                l = mid+1;
+            }else{
+                r = mid-1;
+                if(subarr_count==k){
+                    smallest_sum=mid;
+                }
             }
-            else low = mid + 1;
+            
         }
-        return min;
+        
+        return smallest_sum;
     }
     
-    private boolean required_no_of_chunks(int mid, int m){
-        int chunks = 0, i=0;
-        while(i < nums.length){
-            int val = 0;
-            while(i < nums.length && nums[i] + val <= mid) val += nums[i++];
-            chunks++;
+    public int split(int[] nums, int limit){
+        int count = 1;
+        int sum = 0;
+        
+        for(int n:nums){
+            sum+=n;
+            
+            if(sum>limit){
+                sum = n;
+                count++;
+            }
         }
-        return chunks <= m;
+        return count;
     }
 }
