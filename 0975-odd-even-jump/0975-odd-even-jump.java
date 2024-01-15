@@ -1,39 +1,39 @@
 class Solution {
     public int oddEvenJumps(int[] arr) {
-        int length=arr.length;
-
-        TreeMap<Integer,Integer> numIndexMap=new TreeMap<>();        
-        boolean[][] dp=new boolean[length][2]; 
-        // [i][0] can reach end from i with odd jump
-        // [i][1] can reach end with even jump
+        int input_len = arr.length;
+        boolean[][] can_reach = new boolean[input_len][2];
         
-        dp[length-1][0]=dp[length-1][1]=true;
-        
-        Integer count=0;
-        
-        for(int i=length-1;i>=0;i--){
-            Integer oddJumpNum=numIndexMap.ceilingKey(arr[i]);
-            if(oddJumpNum!=null){
-                int oddJumpIndex=numIndexMap.get(oddJumpNum);
-                dp[i][1]=dp[oddJumpIndex][0];
-            }
-            
-                
-            Integer evenJumpNum=numIndexMap.floorKey(arr[i]);
-            if(evenJumpNum!=null){
-                int evenJumpIndex=numIndexMap.get(evenJumpNum);
-                dp[i][0]=dp[evenJumpIndex][1];
-            }
-            
-            numIndexMap.put(arr[i],i);
-            
-            if(dp[i][1]==true){
-                count++;
-            }
-            
+        for(int i=0;i<input_len;i++){
+            can_reach[i][0]=can_reach[i][1]=false;
         }
         
-        return count;
+        int last_index=input_len-1;
+        can_reach[last_index][0]=can_reach[last_index][1]=true;
         
+        TreeMap<Integer,Integer> value_index_map=new TreeMap<>();
+        int good_indices_count = 0;
+        for(int i=last_index;i>=0;i--){
+            int value = arr[i];
+            int even_jump_index;
+            Integer even_jump_value = value_index_map.ceilingKey(value);
+            if(even_jump_value!=null){
+                even_jump_index=value_index_map.get(even_jump_value);
+                can_reach[i][0] = can_reach[even_jump_index][1];
+            }
+            int odd_jump_index;
+            Integer odd_jump_value = value_index_map.floorKey(value);
+            if(odd_jump_value!=null){
+                odd_jump_index=value_index_map.get(odd_jump_value);
+                can_reach[i][1] = can_reach[odd_jump_index][0];
+            }
+            // System.out.println(i+ " "+even_jump_index+" "+odd_jump_index);
+            if(can_reach[i][0]==true){
+                good_indices_count++;
+            }
+            
+            value_index_map.put(value,i);
+        }
+        
+        return good_indices_count;
     }
 }
