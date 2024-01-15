@@ -42,7 +42,7 @@ class RangeModule {
             int rightEnd = ranges.get(leftClosest);
             ranges.put(leftClosest,left);
             ranges.put(right,rightEnd);
-        }else if(leftClosest!=null && ranges.get(leftClosest)>=left){
+        }else if(leftClosest!=null && ranges.get(leftClosest)>left){
             ranges.put(leftClosest,left);
         }
         
