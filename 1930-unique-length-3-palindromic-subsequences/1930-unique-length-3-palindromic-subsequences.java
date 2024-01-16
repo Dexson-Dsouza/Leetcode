@@ -15,7 +15,7 @@ class Solution {
             for(int character=0;character<26;character++){
                 int key = character + (ch-'a')*26 + character*676;
                 if(done.contains(key)==false && left_count[character]>0 && right_count[character]>0){
-                    count ++;
+                    count++;
                     done.add(key);
                 }
             }
