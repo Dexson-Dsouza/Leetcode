@@ -1,28 +1,26 @@
 class Solution {
     public int countPalindromicSubsequence(String s) {
-        int[] leftCount = new int[26];
-        int[] rightCount = new int[26];
+        int[] left_count = new int[26];
+        int[] right_count = new int[26];
         
-        for(int i=0;i<s.length();i++){
-            char cur= s.charAt(i);
-            rightCount[cur-'a']++;
+        for(char ch:s.toCharArray()){
+            right_count[ch-'a']++;
         }
         
-        Set<String> palindromes = new HashSet<>();
-        
+        int count = 0;
+        Set<Integer> done = new HashSet<>();
         for(int i=0;i<s.length();i++){
-            char cur= s.charAt(i);
-            int curIndex = cur-'a';
-            rightCount[cur-'a']--;
-            for(int characterIndex=0;characterIndex<26;characterIndex++){
-                int palCount = Math.min(leftCount[characterIndex],rightCount[characterIndex]);
-                String key = characterIndex +"-" + cur+ "-" + characterIndex;
-                if(palCount>0 ){
-                    palindromes.add(key);
+            char ch=s.charAt(i);
+            right_count[ch-'a']--;
+            for(int character=0;character<26;character++){
+                int key = character + (ch-'a')*26 + character*676;
+                if(done.contains(key)==false && left_count[character]>0 && right_count[character]>0){
+                    count ++;
+                    done.add(key);
                 }
             }
-            leftCount[cur-'a']++;
+            left_count[ch-'a']++;
         }
-        return palindromes.size();
+        return count;
     }
 }
