@@ -1,43 +1,44 @@
 class Solution {
     public int longestPalindrome(String[] words) {
-        int wordCount=words.length;
+        Map<String,Integer> count_map = new HashMap<>();
         
-        int longestLen=0;
-        boolean singlePalTaken=false;
-        
-        Map<String,Integer> count=new HashMap<>();
-        for(int i=0;i<wordCount;i++){
-            count.put(words[i],count.getOrDefault(words[i],0)+1);
+        for(String w:words){
+            count_map.put(w,count_map.getOrDefault(w,0)+1);
         }
-        
-        Set<String> processed=new HashSet<>();
-        for(String word:count.keySet()){
-            String reverse= new StringBuilder(word).reverse().toString();
+        boolean middle_taken=false;
+        int count = 0;
+        for(String word:words){
+            String reverse_word = new StringBuilder(word).reverse().toString();
             
-            if(processed.contains(word) || processed.contains(reverse)){
-                continue;
-            }
-            processed.add(word);
-            processed.add(reverse);
-            if(word.equals(reverse)){
-                int totalCount = count.get(word);
-                int maxTaken = totalCount - totalCount%2;
-                longestLen += maxTaken*2;
-                if(totalCount%2==1 && singlePalTaken==false){
-                    singlePalTaken=true;
-                    longestLen+=2;
+            if(word.equals(reverse_word)){
+                int word_count = count_map.get(word);
+                int word_used = word_count;
+                if(word_used%2==1){
+                    word_used--;
                 }
+                
+                count += word_used*2;
+                word_count -= word_used;
+                
+                if(!middle_taken && word_count%2==1){
+                    word_count--;
+                    middle_taken = true;
+                    count +=2;
+                }
+                
+                count_map.put(word,word_count);
             }else{
-                int count1=count.getOrDefault(word,0);
-                int count2=count.getOrDefault(reverse,0);
-                int maxTaken= Math.min(count1,count2);
-                if(maxTaken>0){
-                    longestLen += maxTaken*(4);
-                }
+                int cnt1 = count_map.getOrDefault(word,0);
+                int cnt2 = count_map.getOrDefault(reverse_word,0);
+                
+                int word_used = Math.min(cnt1,cnt2);
+                count += word_used*4;
+                
+                count_map.put(word,cnt1 -word_used );
+                count_map.put(reverse_word,cnt2 -word_used );
             }
-            // System.out.println(word+" "+reverse+" "+longestLen);
+            
         }
-        
-        return longestLen;
+        return count;
     }
 }
