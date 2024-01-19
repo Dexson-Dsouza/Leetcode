@@ -1,15 +1,15 @@
 class Solution {
     public int numberOfArithmeticSlices(int[] nums) {
-        int cur=0;
+        int count_3=0;
         int total=0;
         
         for(int i=2;i<nums.length;i++){
             if(nums[i]-nums[i-1] == nums[i-1]-nums[i-2]){
-        
-                total+= cur + 1;
-                cur++;
+                count_3++;
+                total+=count_3;
+                
             }else{
-                cur = 0;
+                count_3 = 0;
             }
         }
         return total;
