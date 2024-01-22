@@ -5,7 +5,7 @@ class Solution {
         if (t == 0)
             return 0;
         if (t < 0 || i >= nums.size())
-            return Integer.MIN_VALUE;
+            return -nums.size();
         if (dp[i][t]!=null)
             return dp[i][t];
         int a = 1 + solve(i + 1, nums, t - nums.get(i));
