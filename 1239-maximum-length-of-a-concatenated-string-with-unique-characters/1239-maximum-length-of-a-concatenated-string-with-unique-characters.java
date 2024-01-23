@@ -3,43 +3,46 @@ class Solution {
         int len=arr.size();
         
         int[] mask=new int[len];
-        
+        List<String> valid_words = new ArrayList<>();
         for(int i=0;i<len;i++){
             String s=arr.get(i);
-            int curMask=0;
+            int[] count=new int[26];
+            boolean is_valid = true;
             for(char ch:s.toCharArray()){
                 int charIndex=ch-'a';
-                if((curMask & (1<<charIndex))!=0){
-                    curMask = 0;
+                if(count[charIndex]==1){
+                    is_valid=false;
                     break;
                 }
-                curMask |= (1<<charIndex);
             }
-            mask[i]=curMask;
+            if(is_valid){
+                valid_words.add(s);
+            }
         }
-        return findAllCombos(arr,mask,0,new HashSet<Integer>());
+        return findAllCombos(valid_words,0,new HashSet<Integer>());
     }
     
-    int findAllCombos(List<String> arr, int[] mask, int index,Set<Integer> indexSet){
-        if(index==mask.length){
+    int findAllCombos(List<String> arr, int index,Set<Integer> indexSet){
+        if(index==arr.size()){
             int curLen=0;
-            int curMask=0;
+            int[] count=new int[26];
             for(int i:indexSet){
-                curLen+=arr.get(i).length();
-                if((curMask&mask[i])!=0){
-                    return 0;
+                for(char ch:arr.get(i).toCharArray()){
+                    int charIndex=ch-'a';
+                    count[charIndex]++;
+                    if(count[charIndex]==2){
+                        return 0;
+                    }
                 }
-                curMask|=mask[i];
+                curLen+= arr.get(i).length();
             }
             return curLen;
         }
         int maxLen=0;
-        maxLen=Math.max(maxLen,findAllCombos(arr,mask,index+1,indexSet));
-        if(mask[index]!=0){
-            indexSet.add(index);
-            maxLen=Math.max(maxLen,findAllCombos(arr,mask,index+1,indexSet));
-            indexSet.remove(index);
-        }
+        maxLen=Math.max(maxLen,findAllCombos(arr,index+1,indexSet));
+        indexSet.add(index);
+        maxLen=Math.max(maxLen,findAllCombos(arr,index+1,indexSet));
+        indexSet.remove(index);
         return maxLen;
     }
 }
