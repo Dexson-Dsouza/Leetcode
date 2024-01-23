@@ -1,37 +1,25 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
 class Solution {
     public int maxAncestorDiff(TreeNode root) {
         if(root==null){
             return 0;
         }
-        
         return maxDiff(root,root.val,root.val);
     }
-    
-    public int maxDiff(TreeNode root, int minSoFar, int maxSoFar){
-        if(root==null){
-            return 0;
-        }
-        
-        int curDiff = Math.max(Math.abs(minSoFar-root.val), Math.abs(maxSoFar-root.val));
-        minSoFar = Math.min(minSoFar,root.val);
-        maxSoFar = Math.max(maxSoFar,root.val);
-        int leftDiff = maxDiff(root.left,minSoFar,maxSoFar);
-        int rightDiff = maxDiff(root.right,minSoFar,maxSoFar);
-        return Math.max(curDiff,Math.max(leftDiff,rightDiff));
-    }
+	int maxDiff(TreeNode root, int max_so_far, int min_so_far){
+		if(root==null){
+			return 0;
+}
+int cur_diff = Math.max(
+Math.abs(max_so_far-root.val),
+ Math.abs(root.val - min_so_far)
+);
+
+		max_so_far = Math.max(max_so_far,root.val);
+		min_so_far= Math.min(min_so_far,root.val);
+
+int max_diff_left = maxDiff(root.left,max_so_far,min_so_far);
+int max_diff_right = maxDiff(root.right,max_so_far,min_so_far);
+int max_diff_children = Math.max(max_diff_left,max_diff_right);
+return Math.max(max_diff_children,cur_diff);
+}
 }
