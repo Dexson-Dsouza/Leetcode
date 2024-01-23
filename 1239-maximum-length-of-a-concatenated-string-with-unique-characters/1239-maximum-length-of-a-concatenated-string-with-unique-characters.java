@@ -17,19 +17,16 @@ class Solution {
             }
             mask[i]=curMask;
         }
-        return findAllCombos(arr,mask,0,0);
+        return findAllCombos(arr,mask,0,new HashSet<Integer>());
     }
     
-    int findAllCombos(List<String> arr, int[] mask, int index, int selectedBits){
+    int findAllCombos(List<String> arr, int[] mask, int index,Set<Integer> indexSet){
         if(index==mask.length){
             int curLen=0;
             int curMask=0;
-            for(int i=0;i<mask.length;i++){
-                if((selectedBits&(1<<i))==0){
-                    continue;
-                }
+            for(int i:indexSet){
                 curLen+=arr.get(i).length();
-                if(mask[i]==0 || (curMask&mask[i])!=0){
+                if((curMask&mask[i])!=0){
                     return 0;
                 }
                 curMask|=mask[i];
@@ -37,11 +34,11 @@ class Solution {
             return curLen;
         }
         int maxLen=0;
-        maxLen=Math.max(maxLen,findAllCombos(arr,mask,index+1,selectedBits));
+        maxLen=Math.max(maxLen,findAllCombos(arr,mask,index+1,indexSet));
         if(mask[index]!=0){
-            selectedBits|=(1<<index);
-            maxLen=Math.max(maxLen,findAllCombos(arr,mask,index+1,selectedBits));
-            selectedBits^=(1<<index);
+            indexSet.add(index);
+            maxLen=Math.max(maxLen,findAllCombos(arr,mask,index+1,indexSet));
+            indexSet.remove(index);
         }
         return maxLen;
     }
