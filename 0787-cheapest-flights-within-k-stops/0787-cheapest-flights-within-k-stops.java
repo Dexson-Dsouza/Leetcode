@@ -42,9 +42,9 @@ class Solution {
                     // System.out.println(nextStop+"__"+totalCost);
                     if(costs[nextStop]==null || totalCost<costs[nextStop]){
                         costs[nextStop]=totalCost;
-                        if(nextStop!=dst){
+                        // if(nextStop!=dst){
                             curStops.add(new int[]{nextStop,totalCost});
-                        }
+                        // }
                         
                     }
                     
