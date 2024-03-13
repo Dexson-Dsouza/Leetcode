@@ -28,7 +28,7 @@ class Solution {
                         countB--;
                         freqB++;
                     }
-                    if(freqB>0){
+                    if(freqB>0 && freqA>0){
                         maxVariance=Math.max(maxVariance,freqA-freqB);
                     }
                     
