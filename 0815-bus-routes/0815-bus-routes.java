@@ -38,10 +38,10 @@ class Solution {
                         return busCount;
                     }
                     for(int nextStop:busDestMap.get(bus)){
-                        // if(!visitedStops.contains(nextStop)){
+                        if(!visitedStops.contains(nextStop)){
                             visitedStops.add(nextStop);
                             curStops.add(nextStop);
-                        // }
+                        }
                     }
                 }
             }
