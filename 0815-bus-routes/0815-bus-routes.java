@@ -17,33 +17,30 @@ class Solution {
         Set<Integer> visitedStops = new HashSet<>();
         visitedStops.add(source);
         Set<Integer> visitedBuses = new HashSet<>();
-        Queue<Integer> curBuses = new LinkedList<>();
-        
-        if(!destBusMap.containsKey(source)){
-            return -1;
-        }
-        
-        for(int b:destBusMap.get(source)){
-            curBuses.add(b);
-            visitedBuses.add(b);
-        }
+        Queue<Integer> curStops = new LinkedList<>();
+        curStops.add(source);
         int busCount=1;
         // start bfs
-        while(curBuses.size()>0){
-            int size = curBuses.size();
+        while(curStops.size()>0){
+            int size = curStops.size();
             while(size>0){
                 size--;
-                int curBus = curBuses.poll();
-                for(int stop:busDestMap.get(curBus)){
-                    
-                    if(stop==target){
+                int curStop = curStops.poll();
+                if(!destBusMap.containsKey(curStop)){
+                    continue;
+                }
+                for(int bus:destBusMap.get(curStop)){
+                    if(visitedBuses.contains(bus)){
+                        continue;
+                    }
+                    visitedBuses.add(bus);
+                    if(busDestMap.get(bus).contains(target)){
                         return busCount;
                     }
-                    
-                    for(int nextBus:destBusMap.get(stop)){
-                        if(!visitedBuses.contains(nextBus)){
-                            visitedBuses.add(nextBus);
-                            curBuses.add(nextBus);
+                    for(int nextStop:busDestMap.get(bus)){
+                        if(!visitedStops.contains(nextStop)){
+                            visitedStops.add(nextStop);
+                            curStops.add(nextStop);
                         }
                     }
                 }
