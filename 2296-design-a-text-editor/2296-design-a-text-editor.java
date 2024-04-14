@@ -6,14 +6,14 @@ class TextEditor {
     
     public void addText(String text) {
         for(char c: text.toCharArray()){
-            left.push(c);
+            left.addLast(c);
         }
     }
     
     public int deleteText(int k) {
         int count = 0;
         while(!left.isEmpty() && k > 0){
-            left.pop();
+            left.pollLast();
             count++;
             k--;
         }
@@ -22,17 +22,19 @@ class TextEditor {
     
     public String cursorLeft(int k) {
         while(!left.isEmpty() && k > 0){
-            right.push(left.pop());
+            right.addFirst(left.pollLast());
             k--;
         }
+        // System.out.println(left+" "+right);
         return lastTen();
     }
     
     public String cursorRight(int k) {
         while(!right.isEmpty() && k > 0){
-            left.push(right.pop());
+            left.addLast(right.pollFirst());
             k--;
         }
+        // System.out.println(left+" "+right);
         return lastTen();
     }
     
@@ -41,7 +43,7 @@ class TextEditor {
         int count = 10;
         
         while(!left.isEmpty() && count > 0){
-            sb.append(left.pop());
+            sb.append(left.pollLast());
             count--;
         }
         String last = sb.reverse().toString();
