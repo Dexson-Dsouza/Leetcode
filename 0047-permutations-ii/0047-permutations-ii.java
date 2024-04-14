@@ -1,30 +1,27 @@
-class Solution {
+
+public class Solution {
     public List<List<Integer>> permuteUnique(int[] nums) {
-        Map<Integer, Integer> digitMap = new HashMap<>();
-        for (int n : nums) {
-          digitMap.put(n, digitMap.getOrDefault(n, 0) + 1);
-        }
-        List<Integer> currentPerm = new ArrayList<>();
-        List<List<Integer>> permutations = new ArrayList<>();
-        generatePerm(nums.length,digitMap, currentPerm, permutations);
-        return permutations;
-      }
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        boolean[] used = new boolean[nums.length];
+        List<Integer> list = new ArrayList<Integer>();
+        Arrays.sort(nums);
+        dfs(nums, used, list, res);
+        return res;
+    }
 
-      void generatePerm(int total, Map<Integer, Integer> digitMap, List<Integer> currentPerm, List<List<Integer>> permutations) {
-        if (total == currentPerm.size()) {
-          permutations.add(new ArrayList<>(currentPerm));
-          return;
+    public void dfs(int[] nums, boolean[] used, List<Integer> list, List<List<Integer>> res){
+        if(list.size()==nums.length){
+            res.add(new ArrayList<Integer>(list));
+            return;
         }
-
-        for(int n:digitMap.keySet()){
-          if(digitMap.get(n)==0){
-            continue;
-          }
-          currentPerm.add(n);
-          digitMap.put(n,digitMap.get(n)-1);
-          generatePerm(total,digitMap, currentPerm, permutations);
-          currentPerm.remove(currentPerm.size()-1);
-          digitMap.put(n,digitMap.get(n)+1);
+        for(int i=0;i<nums.length;i++){
+            if(used[i]) continue;
+            if(i>0 &&nums[i-1]==nums[i] && used[i-1]) continue;
+            used[i]=true;
+            list.add(nums[i]);
+            dfs(nums,used,list,res);
+            used[i]=false;
+            list.remove(list.size()-1);
         }
-      }
+    }
 }
