@@ -24,7 +24,7 @@ class Solution {
     }
     
     TreeNode addRow(TreeNode par, TreeNode cur, int val, int depth,int target) {
-        if(cur==null || depth<0){
+        if(cur==null){
             return cur;
         }
         if(depth==target-1){
