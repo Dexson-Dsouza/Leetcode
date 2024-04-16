@@ -1,22 +1,24 @@
 class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
-        boolean[] dp = new boolean[s.length()+1];
-        dp[0]=true;
-        for (int i = 1; i <= s.length(); i++) {
-            for (String word: wordDict) {
-                // Handle out of bounds case
-                if (i < word.length()) {
-                    continue;
-                }
-                
-                if (dp[i - word.length()] 
-                    && s.substring(i - word.length(), i ).equals(word) ){
-                    dp[i] = true;   
-                    break;
-                 }
-            }
+        Boolean[] isPossible=new Boolean[s.length()];
+        return check(s,new HashSet<>(wordDict),isPossible,0);
+    }
+    
+    boolean check(String s, Set<String> words, Boolean[] isPossible, int i){
+        if(i==s.length()){
+            return true;
         }
         
-        return dp[s.length()];
+        if(isPossible[i]!=null){
+            return isPossible[i];
+        }
+        boolean canMake=false;
+        for(int index=i+1;index<=s.length();index++){
+            if(words.contains(s.substring(i,index))){
+                canMake=canMake || check(s,words,isPossible,index);
+            }
+        }
+        isPossible[i]=canMake;
+        return canMake;
     }
 }
