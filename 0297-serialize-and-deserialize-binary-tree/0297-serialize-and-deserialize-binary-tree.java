@@ -9,52 +9,36 @@
  */
 public class Codec {
 
-    char nullNode='N';
-    String seperator=",";
-    
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
-        StringBuilder encodedSb=new StringBuilder();
-        encodeTree(root,encodedSb);
-        return encodedSb.toString();
+        String code = encode(root);
+        return code;
     }
     
-    public void encodeTree(TreeNode n, StringBuilder sb){
-        if(n==null){
-            sb.append(nullNode);
-            sb.append(seperator);
-        }else{
-            sb.append(n.val);
-            sb.append(seperator);
-            encodeTree(n.left,sb);
-            encodeTree(n.right,sb);
+    String encode(TreeNode root){
+        if(root==null){
+            return "N";
         }
+        String leftKey = encode(root.left);
+        String rightKey = encode(root.right);
+        return String.valueOf(root.val)+","+leftKey+","+rightKey;
     }
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        String[] values= data.split(seperator);
-        Queue<String> valueQueue=new LinkedList<>();
-        for(String value:values){
-            valueQueue.add(value);
-        }
-        return decodeTree(valueQueue);
+        Queue<String> q=new LinkedList(Arrays.asList(data.split(",")));
+        return decode(q);
     }
     
-    public TreeNode decodeTree(Queue<String> valueQueue){
-        if(valueQueue.size()==0){
+    TreeNode decode(Queue<String> q){
+        String node=q.poll();
+        if(node.equals("N")){
             return null;
         }
-        String val = valueQueue.poll();
-        if(val.charAt(0)=='N'){
-            return null;
-        }
-        
-        int numericValue = Integer.parseInt(val);
-        TreeNode n = new TreeNode(numericValue);
-        n.left = decodeTree(valueQueue);
-        n.right = decodeTree(valueQueue);
-        return n;
+        TreeNode root=new TreeNode(Integer.parseInt(node));
+        root.left=decode(q);
+        root.right=decode(q);
+        return root;
     }
 }
 
