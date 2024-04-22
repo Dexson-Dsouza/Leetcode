@@ -14,13 +14,17 @@ class Solution {
         }
         
         Collections.sort(countList);
-        
-        return findMinDel(countList,0,countList.size()-1,k);
+        Integer[][] dp=new Integer[countList.size()][countList.size()];
+        return findMinDel(countList,0,countList.size()-1,k,dp);
     }
     
-    int findMinDel(List<Integer> countList, int i, int j, int k){
+    int findMinDel(List<Integer> countList, int i, int j, int k, Integer[][] dp){
         if(i==j){
             return 0;
+        }
+        
+        if(dp[i][j]!=null){
+            return dp[i][j];
         }
         
         int lc=countList.get(i);
@@ -29,6 +33,6 @@ class Solution {
             return 0;
         }
         
-        return Math.min(lc + findMinDel(countList,i+1,j,k) , rc-(lc+k) + findMinDel(countList,i,j-1,k));
+        return Math.min(lc + findMinDel(countList,i+1,j,k,dp) , rc-(lc+k) + findMinDel(countList,i,j-1,k,dp));
     }
 }
