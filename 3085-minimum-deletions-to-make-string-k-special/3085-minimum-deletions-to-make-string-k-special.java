@@ -32,7 +32,7 @@ class Solution {
         if(rc-lc<=k){
             return 0;
         }
-        
-        return Math.min(lc + findMinDel(countList,i+1,j,k,dp) , rc-(lc+k) + findMinDel(countList,i,j-1,k,dp));
+        dp[i][j] = Math.min(lc + findMinDel(countList,i+1,j,k,dp) , rc-(lc+k) + findMinDel(countList,i,j-1,k,dp));
+        return dp[i][j];
     }
 }
