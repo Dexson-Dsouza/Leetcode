@@ -34,10 +34,10 @@ class Solution {
                         continue;
                     }
                     visitedBuses.add(bus);
-                    if(busDestMap.get(bus).contains(target)){
-                        return busCount;
-                    }
                     for(int nextStop:busDestMap.get(bus)){
+                        if(nextStop==target){
+                            return busCount;
+                        }
                         if(!visitedStops.contains(nextStop)){
                             visitedStops.add(nextStop);
                             curStops.add(nextStop);
