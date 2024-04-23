@@ -1,41 +1,35 @@
 class Solution {
     public int longestSubarray(int[] nums, int limit) {
-        Deque<Integer> maxSoFar=new LinkedList<>();
-        Deque<Integer> minSoFar=new LinkedList<>();
+        Deque<Integer> maxQ=new LinkedList<>();
+        Deque<Integer> minQ=new LinkedList<>();
     
         int maxLen=0;
-        int start=0;
+        int prev=0;
         for(int i=0;i<nums.length;i++){
-            int curNum = nums[i];
-            while(maxSoFar.size()>0 && nums[maxSoFar.peekLast()]<curNum){
-                maxSoFar.pollLast();
+            int n=nums[i];
+            
+            while(maxQ.size()>0 && n>nums[maxQ.peekLast()]){
+                maxQ.pollLast();
             }
+            maxQ.add(i);
             
-            while(minSoFar.size()>0 && nums[minSoFar.peekLast()]>curNum){
-                minSoFar.pollLast();
+            
+            while(minQ.size()>0 && n<nums[minQ.peekLast()]){
+                minQ.pollLast();
             }
+            minQ.add(i);
             
-            maxSoFar.addLast(i);
-            minSoFar.addLast(i);
-            
-            while(maxSoFar.size()>0 && minSoFar.size()>0){
-                int smallestIndex = minSoFar.peekFirst();
-                int largestIndex = maxSoFar.peekFirst();
-                if(nums[largestIndex]-nums[smallestIndex]>limit){
-                    if(smallestIndex==start){
-                        minSoFar.pollFirst();
-                    }
-                    if(largestIndex==start){
-                        maxSoFar.pollFirst();
-                    }
-                    start++;
-                }else{
-                    break;
+            while(maxQ.size()>0 && minQ.size()>0 && (nums[maxQ.peekFirst()]-nums[minQ.peekFirst()])>limit){
+                if(maxQ.peekFirst()==prev){
+                    maxQ.pollFirst();
                 }
-            }
-            if(maxSoFar.size()>0 && minSoFar.size()>0){
-                maxLen=Math.max(maxLen,i-start+1);
-            }
+                if(minQ.peekFirst()==prev){
+                    minQ.pollFirst();
+                }
+                prev++;
+            } 
+            
+            maxLen = Math.max(maxLen,i-prev+1);
         }
         return maxLen;
     }
